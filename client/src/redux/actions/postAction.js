@@ -48,10 +48,10 @@ export const createPost = ({content, images, auth, socket}) => async (dispatch) 
     }
 }
 
-export const getPosts = (token) => async (dispatch) => {
+export const getPosts = () => async (dispatch) => {
     try {
         dispatch({ type: POST_TYPES.LOADING_POST, payload: true })
-        const res = await getDataAPI('posts', token)
+        const res = await getDataAPI('posts')
         
         dispatch({
             type: POST_TYPES.GET_POSTS,
@@ -151,10 +151,10 @@ export const unLikePost = ({post, auth, socket}) => async (dispatch) => {
     }
 }
 
-export const getPost = ({detailPost, id, auth}) => async (dispatch) => {
+export const getPost = ({detailPost, id }) => async (dispatch) => {
     if(detailPost.every(post => post._id !== id)){
         try {
-            const res = await getDataAPI(`post/${id}`, auth.token)
+            const res = await getDataAPI(`post/${id}`)
             dispatch({ type: POST_TYPES.GET_POST, payload: res.data.post })
         } catch (err) {
             dispatch({

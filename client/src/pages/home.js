@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import Posts from '../components/home/Posts';
 import LoadIcon from '../images/loading.gif';
 import WilayaCommune from '../components/WilayaCommune';
-import Modal from '../components/Modal'; // Importar el componente Modal
+import Modalsearchhome from './../components/Modalsearchhome';
  
 const Home = () => {
     const { homePosts } = useSelector(state => state);
@@ -17,18 +17,15 @@ const Home = () => {
         minPrice: '',
         maxPrice: '',
     });
-    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para controlar el modal
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    // Opciones del dropdown para subCategory
-    const subCategories = ['Vente', 'Location', 'Echange'];
+    const subCategories = ['Vente', 'Location', 'Echange', 'Cherche_Achat', 'Cherche_Location'];
 
-    // Manejar cambios en los filtros
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters({ ...filters, [name]: value });
     };
 
-    // Función para resetear los filtros
     const resetFilters = () => {
         setFilters({
             subCategory: '',
@@ -42,139 +39,127 @@ const Home = () => {
         });
     };
 
-    // Abrir el modal
     const openModal = () => {
         setIsModalOpen(true);
     };
 
-    // Cerrar el modal
     const closeModal = () => {
         setIsModalOpen(false);
     };
 
     return (
-        <div className="home row mx-0">
-            {/* Botón para abrir el modal */}
-            <button onClick={openModal} style={styles.searchButton}>
-                <span style={styles.searchIcon}>
-                    <i className='fas fa-search'></i>
-                </span>
-                <span>Search</span>
-            </button>
+        <div className="home">
+    <button onClick={openModal} style={styles.searchButton}>
+        <span style={styles.searchIcon}>
+            <i className='fas fa-search'></i> 
+            <span>Recherche Immobilier</span>
+        </span>
+       
+    </button>
 
-            {/* Modal con los filtros */}
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
-                <div className="filters-container">
-                    {/* Filtro por subCategory */}
-                    <div className="filter-group">
-                        <label>Subcategoría:</label>
-                        <select
-                            name="subCategory"
-                            onChange={handleFilterChange}
-                            value={filters.subCategory}
-                        >
-                            <option value="">Todas las subcategorías</option>
-                            {subCategories.map((category, index) => (
-                                <option key={index} value={category}>
-                                    {category}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    {/* Filtro por título */}
-                    <div className="filter-group">
-                        <label>Título:</label>
-                        <select
-                            name="title"
-                            value={filters.title}
-                            onChange={handleFilterChange}
-                            className="filter-group"
-                            required
-                        >
-                            <option value="">Sélectionner le Titre</option>
-                            <option value="Appartement">Appartement</option>
-                            <option value="Villa">Villa</option>
-                            <option value="Local">Local</option>
-                            <option value="Terrain">Terrain</option>
-                            <option value="Carcasse">Carcasse</option>
-                            <option value="Niveau de villa">Niveau de Villa</option>
-                            <option value="Terrain Agricole">Terrain Agricole</option>
-                            <option value="Immeuble">Immeuble</option>
-                            <option value="Duplex">Duplex</option>
-                            <option value="Studio">Studio</option>
-                            <option value="Hangar">Hangar</option>
-                            <option value="Bungalow">Bungalow</option>
-                            <option value="Usine">Usine</option>
-                            <option value="Autre">Autre</option>
-                        </select>
-                    </div>
-
-                    {/* Filtro por Wilaya y Commune */}
-                    <div className="filter-group">
-                        <WilayaCommune filters={filters} setFilters={setFilters} />
-                    </div>
-
-                    {/* Filtro por fecha */}
-                    <div className="filter-group">
-                        <label>Fecha de inicio:</label>
-                        <input
-                            type="date"
-                            name="startDate"
-                            onChange={handleFilterChange}
-                            value={filters.startDate}
-                        />
-                    </div>
-                    <div className="filter-group">
-                        <label>Fecha de fin:</label>
-                        <input
-                            type="date"
-                            name="endDate"
-                            onChange={handleFilterChange}
-                            value={filters.endDate}
-                        />
-                    </div>
-
-                    {/* Filtro por precio */}
-                    <div className="filter-group">
-                        <label>Precio mínimo:</label>
-                        <input
-                            type="number"
-                            name="minPrice"
-                            placeholder="Precio mínimo"
-                            onChange={handleFilterChange}
-                            value={filters.minPrice}
-                        />
-                    </div>
-                    <div className="filter-group">
-                        <label>Precio máximo:</label>
-                        <input
-                            type="number"
-                            name="maxPrice"
-                            placeholder="Precio máximo"
-                            onChange={handleFilterChange}
-                            value={filters.maxPrice}
-                        />
-                    </div>
-
-                    {/* Botón de Reset */}
-                    <div className="filter-group" style={{ gridColumn: '1 / -1' }}>
-                        <button onClick={resetFilters} style={styles.resetButton}>
-                            Reset
-                        </button>
-                    </div>
+    <Modalsearchhome isOpen={isModalOpen} onClose={closeModal}>
+        <div className="modalcontentsearch">
+            <div className="titlebusqueda">
+                <h5>Búsqueda avanzada</h5>
+                <button className="modalclosesearch" onClick={closeModal}>
+                    &times;
+                </button>
+            </div>
+            <div className="filters-container">
+                <div className="filter-group">
+                    <select
+                        name="subCategory"
+                        onChange={handleFilterChange}
+                        value={filters.subCategory}
+                    >
+                        <option value="">Sélectionner une sous-catégorie</option>
+                        {subCategories.map((category, index) => (
+                            <option key={index} value={category}>
+                                {category}
+                            </option>
+                        ))}
+                    </select>
+                    <select
+                        name="title"
+                        value={filters.title}
+                        onChange={handleFilterChange}
+                        required
+                    >
+                        <option value="">Sélectionner le Titre</option>
+                        <option value="Appartement">Appartement</option>
+                        <option value="Villa">Villa</option>
+                        <option value="Local">Local</option>
+                        <option value="Terrain">Terrain</option>
+                        <option value="Carcasse">Carcasse</option>
+                        <option value="Niveau de villa">Niveau de Villa</option>
+                        <option value="Terrain Agricole">Terrain Agricole</option>
+                        <option value="Immeuble">Immeuble</option>
+                        <option value="Duplex">Duplex</option>
+                        <option value="Studio">Studio</option>
+                        <option value="Hangar">Hangar</option>
+                        <option value="Bungalow">Bungalow</option>
+                        <option value="Usine">Usine</option>
+                        <option value="Autre">Autre</option>
+                    </select>
                 </div>
-            </Modal>
 
-            {/* Mostrar los posts filtrados */}
-            {homePosts.loading ? (
-                <img src={LoadIcon} alt="loading" className="d-block mx-auto" />
-            ) : homePosts.result === 0 && homePosts.posts.length === 0 ? (
-                <h2 className="text-center">No Post</h2>
-            ) : (
-                <Posts filters={filters} />
-            )}
+                <div className="filter-group">
+                    <WilayaCommune filters={filters} setFilters={setFilters} />
+                </div>
+
+                <div className="filter-group">
+                    <small>Fecha de inicio:</small>
+                    <input
+                        type="date"
+                        name="startDate"
+                        onChange={handleFilterChange}
+                        value={filters.startDate}
+                    />
+                    <small>Fecha de fin:</small>
+                    <input
+                        type="date"
+                        name="endDate"
+                        onChange={handleFilterChange}
+                        value={filters.endDate}
+                    />
+                </div>
+
+                <div className="filter-group">
+                    <small>Precio mínimo:</small>
+                    <input
+                        type="number"
+                        name="minPrice"
+                        placeholder="Precio mínimo"
+                        onChange={handleFilterChange}
+                        value={filters.minPrice}
+                    />
+                    <small>Precio máximo:</small>
+                    <input
+                        type="number"
+                        name="maxPrice"
+                        placeholder="Precio máximo"
+                        onChange={handleFilterChange}
+                        value={filters.maxPrice}
+                    />
+                </div>
+
+                <div className="filter-group" style={{ gridColumn: '1 / -1' }}>
+                    <button onClick={resetFilters} className="reset-button">
+                        Reset
+                    </button>
+                </div>
+            </div>
         </div>
+    </Modalsearchhome>
+
+    {homePosts.loading ? (
+        <img src={LoadIcon} alt="loading" className="d-block mx-auto" />
+    ) : homePosts.result === 0 && homePosts.posts.length === 0 ? (
+        <h2 className="text-center">No Post</h2>
+    ) : (
+        <Posts filters={filters} />
+    )}
+</div>
     );
 };
 
@@ -197,20 +182,6 @@ const styles = {
         fontSize: '1.1rem',
         color: '#007bff',
         marginRight: '0.5rem',
-    },
-    resetButton: {
-        width: '100%',
-        padding: '0.75rem',
-        border: 'none',
-        borderRadius: '8px',
-        backgroundColor: '#dc3545',
-        color: '#fff',
-        fontSize: '1rem',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s ease',
-    },
-    resetButtonHover: {
-        backgroundColor: '#c82333',
     },
 };
 

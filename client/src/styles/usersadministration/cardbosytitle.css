@@ -28,9 +28,10 @@
 .titlelocation {
     display: flex;
     gap: 7px; /* Espacio entre los elementos de ubicación */
-    font-size: 15px;
+    font-size: 17px;
     color: rgb(56, 56, 56); /* Color de texto más suave */
     margin-left: 12px; /* Asegura que no haya margen a la izquierda */
+    margin-bottom: 2px;
 }
 
 .icon-edit {

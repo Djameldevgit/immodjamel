@@ -10,7 +10,6 @@ import { BASE_URL } from '../../../utils/config'
 const CardHeader = ({ post }) => {
     const { auth, socket } = useSelector(state => state)
     const dispatch = useDispatch()
-
     const history = useHistory()
 
     const handleEditPost = () => {
@@ -30,7 +29,7 @@ const CardHeader = ({ post }) => {
 
     return (
         <div className="card_header">
-            {auth.user.role === "superuser" &&
+            {auth.user?.role === "superuser" &&
                 <>
                     <div className="d-flex">
                         <Avatar src={post.user.avatar} size="big-avatar" />
@@ -47,31 +46,38 @@ const CardHeader = ({ post }) => {
                         </div>
                     </div>
                 </>
-
             }
 
-
+            {/* Dropdown para las opciones */}
             <div className="nav-item dropdown">
                 <span className="material-icons" id="moreLink" data-toggle="dropdown">
                     more_horiz
                 </span>
 
                 <div className="dropdown-menu">
-                    {
-                        auth.user._id === post.user._id &&
+                    {/* Mostrar las opciones si el usuario está autenticado y es el dueño del post */}
+                    {auth.user?._id === post.user._id && (
                         <>
                             <div className="dropdown-item" onClick={handleEditPost}>
                                 <span className="material-icons">create</span> Edit Post
                             </div>
-                            <div className="dropdown-item" onClick={handleDeletePost} >
+                            <div className="dropdown-item" onClick={handleDeletePost}>
                                 <span className="material-icons">delete_outline</span> Remove Post
                             </div>
                         </>
-                    }
+                    )}
 
+                    {/* Opción de compartir visible siempre, incluso para no autenticados */}
                     <div className="dropdown-item" onClick={handleCopyLink}>
                         <span className="material-icons">content_copy</span> Copy Link
                     </div>
+
+                    {/* Si el usuario no está autenticado, se puede añadir una sugerencia para iniciar sesión */}
+                    {!auth.user && (
+                        <div className="dropdown-item text-muted">
+                            <small>Inicia sesión para editar o eliminar el post</small>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
@@ -79,3 +85,4 @@ const CardHeader = ({ post }) => {
 }
 
 export default CardHeader
+

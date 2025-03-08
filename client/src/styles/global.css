@@ -90,10 +90,11 @@ img {
 @import url("./usersadministration/cardfooterpost.css");
 @import url("./usersadministration/filtocomponentes.css");
 @import url("./usersadministration/descripcionpost.css");
-
-
-
-
+@import url("./usersadministration/usericon.css");
+@import url("./usersadministration/cardbodycarouselmodalauteticacion.css");
+@import url("./usersadministration/informationuserpost.css");
+@import url("./usersadministration/cardfootercommenttiempomodal.css");
+@import url("./usersadministration/homemodalsearch.css");
 /* --------- Responsive ------ */
 @media (max-width: 766px){
   .header .navbar .logo{

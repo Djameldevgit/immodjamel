@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const Modal = ({ isOpen, onClose, children }) => {
+const Modalsearchhome = ({ isOpen, onClose, children }) => {
     if (!isOpen) return null;
 
     return (
@@ -49,4 +49,4 @@ const styles = {
     },
 };
 
-export default Modal;
+export default Modalsearchhome;

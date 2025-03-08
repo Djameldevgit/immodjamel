@@ -218,11 +218,11 @@ const userCtrl = {
     getUser: async (req, res) => {
         try {
             const user = await Users.findById(req.params.id)
-                .select('-password')
-                .populate("followers following", "esBloqueado -password")
+                .select('-password') // Excluir `password` en la consulta principal
+                .populate("followers following", "esBloqueado") // Solo inclusiones
                 .populate("BlockUser", "user userquibloquea esBloqueado")
                 .populate({
-                    path: "blockData",  // Asegúrate de que el nombre coincide con el esquema
+                    path: "blockData",
                     select: "esBloqueado motivo fechaBloqueo username avatar email"
                 });
     

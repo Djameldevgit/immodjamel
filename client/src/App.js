@@ -1,10 +1,6 @@
 import { useEffect } from 'react'
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Redirect, Route } from 'react-router-dom'
 
-import PageRender from './customRouter/PageRender'
-import PrivateRouter from './customRouter/PrivateRouter'
- 
-import Home from './pages/home'
 import Login from './pages/login'
 import Register from './pages/register'
 
@@ -14,7 +10,7 @@ import StatusModal from './components/StatusModal'
 
 import { useSelector, useDispatch } from 'react-redux'
 import { refreshToken } from './redux/actions/authAction'
-import { getPosts  } from './redux/actions/postAction'
+import { getPosts } from './redux/actions/postAction'
 import { getSuggestions } from './redux/actions/suggestionsAction'
 
 import io from 'socket.io-client'
@@ -23,16 +19,20 @@ import SocketClient from './SocketClient'
 
 import { getNotifies } from './redux/actions/notifyAction'
 import CallModal from './components/message/CallModal'
-  
-import Edicionusers from './pages/administration/users/edicionusers'
+
 import { getUsers } from './redux/actions/userAction'
 import UsersActionn from './pages/administration/users/UsersActionn'
-import listadeusuariosbloqueadoss from './pages/administration/users/listadeusuariosbloqueadoss'
+import Listadeusuariosbloqueadoss from './pages/administration/users/listadeusuariosbloqueadoss'
 import { getBlockedUsers } from './redux/actions/userBlockAction'
 import Paginabloqueos from './pages/paginabloqueos'
 import Roles from './pages/administration/users/roles'
 import Homepostspendientes from './pages/administration/homepostspendientes'
 import { getPostsPendientes } from './redux/actions/postAproveAction'
+import Profile from './pages/profile'
+import Post from './pages/post'
+import Edicionusers from './pages/administration/users/edicionusers'
+import NotFound from './components/NotFound'
+import Home from './pages/home'
 
 function App() {
   const { auth, status, modal, call } = useSelector(state => state)
@@ -42,78 +42,68 @@ function App() {
     dispatch(refreshToken())
 
     const socket = io()
-    dispatch({type: GLOBALTYPES.SOCKET, payload: socket})
+    dispatch({ type: GLOBALTYPES.SOCKET, payload: socket })
     return () => socket.close()
-  },[dispatch])
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(getPosts())
+  }, [dispatch])
 
   useEffect(() => {
     if (auth.token) {
-      dispatch(getPosts(auth.token, 'Vente'));
-      dispatch(getSuggestions(auth.token));
-      dispatch(getNotifies(auth.token));
-      dispatch(getUsers(auth.token));
-      dispatch(getBlockedUsers(auth.token));
-      dispatch(getPostsPendientes(auth.token));
+      dispatch(getSuggestions(auth.token))
+      dispatch(getNotifies(auth.token))
+      dispatch(getUsers(auth.token))
+      dispatch(getBlockedUsers(auth.token))
+      dispatch(getPostsPendientes(auth.token))
     }
-  }, [dispatch, auth.token]);
+  }, [dispatch, auth.token])
 
-  
   useEffect(() => {
     if (!("Notification" in window)) {
-      alert("This browser does not support desktop notification");
-    }
-    else if (Notification.permission === "granted") {}
-    else if (Notification.permission !== "denied") {
+      alert("This browser does not support desktop notification")
+    } else if (Notification.permission === "granted") {} else if (Notification.permission !== "denied") {
       Notification.requestPermission().then(function (permission) {
         if (permission === "granted") {}
-      });
+      })
     }
-  },[])
-
- 
-  
-
+  }, [])
 
   return (
     <Router>
       <Alert />
-
       <input type="checkbox" id="theme" />
       <div className={`App ${(status || modal) && 'mode'}`}>
         <div className="main">
-          {auth.token && <Header />}
+          <Header />
           {status && <StatusModal />}
           {auth.token && <SocketClient />}
           {call && <CallModal />}
-          
-          <Route exact path="/" component={auth.token ? Home : Login} />
-          <Route exact path="/register" component={Register} />
 
+          <Switch>
 
-
-
-
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/administration/usersaction" component={auth.token ? UsersActionn : Login} />
-          <Route exact path="/administration/usersedicion" component={auth.token ? Edicionusers : Login} />
-          <Route exact path="/administration/listadeusuariosbloqueadoss" component={auth.token ? listadeusuariosbloqueadoss : Login} />
-          <Route exact path="/paginabloqueos" component={auth.token ? Paginabloqueos : Login} />
-          <Route exact path="/administration/roles" component={auth.token ? Roles : Login} />
-          <Route exact path="/administracion/homepostspendientes" component={auth.token ? Homepostspendientes : Login} />
-   
-
-
-
-
-
-
-          <PrivateRouter exact path="/:page" component={PageRender} />
-          <PrivateRouter exact path="/:page/:id" component={PageRender} />
-          
+            {/* Rutas protegidas para usuarios autenticados */}
+            <Route exact path="/administration/usersaction" render={() => auth.token ? <UsersActionn /> : <Redirect to="/login" />} />
+            <Route exact path="/administration/usersedicion" render={() => auth.token ? <Edicionusers /> : <Redirect to="/login" />} />
+            <Route exact path="/administration/listadeusuariosbloqueadoss" render={() => auth.token ? <Listadeusuariosbloqueadoss /> : <Redirect to="/login" />} />
+            <Route exact path="/paginabloqueos" render={() => auth.token ? <Paginabloqueos /> : <Redirect to="/login" />} />
+            <Route exact path="/homepostspendientes" render={() => auth.token ? <Homepostspendientes /> : <Redirect to="/login" />} />
+            <Route exact path="/administration/roles" render={() => auth.token ? <Roles /> : <Redirect to="/login" />} />
+            
+            {/* Rutas públicas */}
+            <Route exact path="/" render={() => <Home />} />  {/* Ruta pública Home */}
+            <Route exact path="/login" render={() => auth.token ? <Redirect to={`/profile/${auth.user._id}`} /> : <Login />} />
+            <Route exact path="/register" render={() => auth.token ? <Redirect to={`/profile/${auth.user._id}`} /> : <Register />} />
+            <Route exact path="/profile/:id" render={(props) => auth.token ? <Profile {...props} /> : <Redirect to="/login" />} />
+            <Route exact path="/post/:id" component={Post} />
+            <Route component={NotFound} />
+            
+          </Switch>
         </div>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App
