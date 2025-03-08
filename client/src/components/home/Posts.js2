@@ -1,0 +1,60 @@
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { getDataAPI } from '../../utils/fetchData'
+import { POST_TYPES } from '../../redux/actions/postAction'
+import PostCard from '../PostCard'
+
+import LoadIcon from '../../images/loading.gif'
+import LoadMoreBtn from '../LoadMoreBtn'
+import { useSelector } from 'react-redux';
+
+const Posts = ({ selectedSubCategory, filtered }) => {
+    const { homePosts, auth, theme } = useSelector(state => state)
+    const dispatch = useDispatch()
+ 
+    const [load, setLoad] = useState(false)
+
+    // Realizamos la petición a la API con el filtro solo cuando se aplica
+    useEffect(() => {
+        if (filtered) {
+            const fetchFilteredPosts = async () => {
+                setLoad(true)
+                const res = await getDataAPI(`posts?subCategory=${selectedSubCategory}&limit=${homePosts.page * 9}`, auth.token)
+
+                dispatch({
+                    type: POST_TYPES.GET_POSTS, 
+                    payload: { ...res.data, page: homePosts.page + 1 }
+                })
+                setLoad(false)
+            }
+
+            fetchFilteredPosts()
+        } else {
+            // Si no hay filtro, cargamos todos los posts
+            const fetchAllPosts = async () => {
+                setLoad(true)
+                const res = await getDataAPI(`posts?limit=${homePosts.page * 9}`, auth.token)
+
+                dispatch({
+                    type: POST_TYPES.GET_POSTS, 
+                    payload: { ...res.data, page: homePosts.page + 1 }
+                })
+                setLoad(false)
+            }
+
+            fetchAllPosts()
+        }
+    }, [selectedSubCategory, filtered, homePosts.page, auth.token, dispatch])
+
+    return (
+        <div className="post_thumb">
+            {homePosts.posts.map(post => (
+                <PostCard key={post._id} post={post} theme={theme} />
+            ))}
+            {load && <img src={LoadIcon} alt="loading" className="d-block mx-auto" />}
+            <LoadMoreBtn result={homePosts.result} page={homePosts.page} load={load} />
+        </div>
+    )
+}
+
+export default Posts

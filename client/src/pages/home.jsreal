@@ -1,0 +1,28 @@
+import React from 'react'
+ 
+import Posts from '../components/home/Posts'
+import { useSelector } from 'react-redux'
+import LoadIcon from '../images/loading.gif'
+
+const Home = () => {
+  const { homePosts } = useSelector(state => state)
+
+  // Filtrar los posts por la categoría "Vente" por defecto
+  const filteredPosts = homePosts.posts.filter(post => post.subCategory === 'Vente')
+
+  return (
+    <div className="home row mx-0">
+   
+     
+      {
+        homePosts.loading 
+        ? <img src={LoadIcon} alt="loading" className="d-block mx-auto" />
+        : (homePosts.result === 0 && homePosts.posts.length === 0)
+            ? <h2 className="text-center">No Post</h2>
+            : <Posts posts={filteredPosts} />  
+      }
+    </div>
+  )
+}
+
+export default Home
