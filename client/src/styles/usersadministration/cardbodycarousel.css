@@ -1,4 +1,6 @@
 .cardbodycarousel {
+   margin: 20px;
+   margin: 10px;
     position: relative;
     border-radius: 15px; /* Bordes redondeados */
     overflow: hidden; /* Para que los bordes redondeados se apliquen correctamente */
