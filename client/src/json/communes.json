@@ -46,7 +46,10 @@
 
 {
     "wilaya": "Blida",
-    "commune": ["Aïn Benian", "Aïn Taya", "Bab El Oued", "Bachedjerah", "Bainem", "Bir Mourad Raïs", "Birtouta", "Bordj El Bahri", "Bordj El Kiffan", "Bordj Menaiel", "Bouzaréah", "Casbah", "Chéraga", "Dar El Beïda", "Dely Ibrahim", "Douera", "Draria", "El Achour", "El Harrach", "El Madania", "El Marsa", "El Mouradia", "H'raoua", "Hammamet", "Hussein Dey", "Khraïssia", "Kouba", "Mahelma", "Mohammadia", "Oued Koriche", "Oued Smar", "Rahmania", "Rais Hamidou", "Reghaïa", "Rouiba", "Saoula", "Sidi M'Hamed", "Sidi Moussa", "Souidania", "Staoueli", "Tessala El Merdja", "Zéralda"]
+    "commune": ["Blida", "Chebli", "Bouinan", "Oued Alleug", "Ouled Yaïch", "Chréa",
+    "El Affroun", "Chiffa", "Hammam Melouane", "Benkhelil", "Soumaa", "Mouzaia",
+    "Souhane", "Meftah", "Ouled Slama", "Boufarik", "Larbaâ", "Oued Djer",
+    "Beni Tamou", "Bouarfa", "Beni Mered", "Bougara", "Guerouaou", "Aïn Romana", "Djebabra"]
   },
   
   {

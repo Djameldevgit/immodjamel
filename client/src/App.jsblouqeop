@@ -34,15 +34,15 @@ import Post from './pages/post'
 import Edicionusers from './pages/administration/users/edicionusers'
 import NotFound from './components/NotFound'
 import Home from './pages/home'
-//import Bloqueos from './pages/bloqueos'
+import Bloqueos from './pages/bloqueos'
 
  
 function App() {
-  const { auth, status, modal, call }= useSelector(state => state); //, userBlockReducer }
+  const { auth, status, modal, call, userBlockReducer } = useSelector(state => state);
   const dispatch = useDispatch();
   
   // Verificamos si el usuario está bloqueado
-  //const blockedUser = userBlockReducer.blockedUsers.find(blockedUser => blockedUser.user._id === auth.user?._id);
+  const blockedUser = userBlockReducer.blockedUsers.find(blockedUser => blockedUser.user._id === auth.user?._id);
 
   useEffect(() => {
     dispatch(refreshToken());
@@ -82,21 +82,22 @@ function App() {
       <div className={`App ${(status || modal) && 'mode'}`}>
         <div className="main">
          
-        <Header /> 
+          {blockedUser ? null : <Header />}
           
           {status && <StatusModal />}
           {auth.token && <SocketClient />}
           {call && <CallModal />}
 
           <Switch>
-             
-             
-              <div>
+              {blockedUser ? (
+              <Route exact path="/bloqueos" component={Bloqueos} />
+            ) : (
+              <>
                   <Route exact path="/administration/usersaction" render={() => auth.token ? <UsersActionn /> : <Redirect to="/login" />} />
                 <Route exact path="/administration/usersedicion" render={() => auth.token ? <Edicionusers /> : <Redirect to="/login" />} />
                 <Route exact path="/administration/listadeusuariosbloqueadoss" render={() => auth.token ? <Listadeusuariosbloqueadoss /> : <Redirect to="/login" />} />
-                <Route exact path="/administration/paginabloqueos" render={() => auth.token ? <Paginabloqueos /> : <Redirect to="/login" />} />
-                <Route exact path="/administration/homepostspendientes" render={() => auth.token ? <Homepostspendientes /> : <Redirect to="/login" />} />
+                <Route exact path="/paginabloqueos" render={() => auth.token ? <Paginabloqueos /> : <Redirect to="/login" />} />
+                <Route exact path="/homepostspendientes" render={() => auth.token ? <Homepostspendientes /> : <Redirect to="/login" />} />
                 <Route exact path="/administration/roles" render={() => auth.token ? <Roles /> : <Redirect to="/login" />} />
                 
                   <Route exact path="/" render={() => <Home />} />   
@@ -104,8 +105,8 @@ function App() {
                 <Route exact path="/register" render={() => auth.token ? <Redirect to={`/profile/${auth.user._id}`} /> : <Register />} />
                 <Route exact path="/profile/:id" render={(props) => auth.token ? <Profile {...props} /> : <Redirect to="/login" />} />
                 <Route exact path="/post/:id" component={Post} />
-              </div>
-          
+              </>
+            )}
 
               <Route component={NotFound} />
           </Switch>

@@ -20,7 +20,14 @@ const UsersEdicion = () => {
     setSelectedUser(user); // Guardamos el usuario que queremos bloquear
     setOpenBlockModal(true); // Abrimos el modal
   };
- 
+ /*
+  const loadUsers = async () => {
+    const res = await getDataAPI(`users?limit=${homeUsers.page * 9}`, auth.token);
+    dispatch({
+      type: USER_TYPES.GET_USERS,
+      payload: { ...res.data, page: homeUsers.page + 1 },
+    });
+  };*/
   
   const handleCloseModal = () => {
     setOpenBlockModal(false); // Cerramos el modal

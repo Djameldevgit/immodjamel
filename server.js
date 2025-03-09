@@ -52,7 +52,7 @@ mongoose.connect(URI, {
 
 // 🕒 Ejecutar cada 5 minutos
 setInterval(autoUnblockUsers , 5 * 60 * 1000);
-
+ 
 if(process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'))
     app.get('*', (req, res) => {

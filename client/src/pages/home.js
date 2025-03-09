@@ -4,9 +4,29 @@ import Posts from '../components/home/Posts';
 import LoadIcon from '../images/loading.gif';
 import WilayaCommune from '../components/WilayaCommune';
 import Modalsearchhome from './../components/Modalsearchhome';
- 
+//import { useHistory } from 'react-router-dom';
 const Home = () => {
-    const { homePosts } = useSelector(state => state);
+    const { homePosts, } = useSelector(state => state);
+   /* auth, userBlockReducer const history = useHistory();  // ✅ Usamos history aquí
+ 
+    useEffect(() => {
+        // Verifica si el usuario no está autenticado
+        
+        // Verifica si el usuario está bloqueado
+        if (auth.user && userBlockReducer.blockedUsers) {
+            const isBlocked = userBlockReducer.blockedUsers.some(userBlock => 
+                userBlock.user._id === auth.user._id && userBlock.esBloqueado
+            );
+
+            if (isBlocked) {
+                // Si el usuario está bloqueado, redirigir a la página de bloqueos
+                history.push('/bloqueos'); // Redirige a la página de bloqueos
+            }
+        }
+    }, [auth.token, auth.user, userBlockReducer.blockedUsers, history]);
+*/
+
+
     const [filters, setFilters] = useState({
         subCategory: '',
         title: '',

@@ -218,13 +218,14 @@ const userCtrl = {
     getUser: async (req, res) => {
         try {
             const user = await Users.findById(req.params.id)
-                .select('-password') // Excluir `password` en la consulta principal
-                .populate("followers following", "esBloqueado") // Solo inclusiones
-                .populate("BlockUser", "user userquibloquea esBloqueado")
-                .populate({
-                    path: "blockData",
-                    select: "esBloqueado motivo fechaBloqueo username avatar email"
-                });
+            .select('-password')
+            .populate("followers following", "esBloqueado")
+            .populate({
+                path: "blockData",
+                match: { esBloqueado: true },  // Solo buscar datos de bloqueo si es bloqueado
+                select: "esBloqueado motivo fechaBloqueo username avatar email"
+            });
+        
     
             if (!user) return res.status(400).json({ msg: "User does not exist." });
     

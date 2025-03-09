@@ -20,7 +20,7 @@ export const createPost = ({content, images, auth, socket}) => async (dispatch) 
         if(images.length > 0) media = await imageUpload(images)
 
         const res = await postDataAPI('posts', { content, images: media }, auth.token)
-
+        
         dispatch({ 
             type: POST_TYPES.CREATE_POST, 
             payload: {...res.data.newPost, user: auth.user} 

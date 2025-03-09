@@ -80,18 +80,26 @@ const blockCtrl = {
 
 
     getBlockedUsers: async (req, res) => {
-        try {
-            const features = new APIfeatures(BlockUser.find(), req.query).paginating();
 
-            const blockedUsers = await features.query
+        try {
+            const features = new APIfeatures(BlockUser.find(), req.query).paginating()
+            const blockedUsers = await features.query.sort('-createdAt')
+
+                .where('esBloqueado').equals(true)  // Filtra por usuarios bloqueados
                 .sort('-createdAt')
-                .populate('user', 'username email role') // Popula el campo 'user' y selecciona los campos que quieres
-                .populate('userquibloquea', 'username email role'); // Popula el campo 'userquibloquea' y selecciona los campos que quieres
+                .populate('user', 'username email role')
+                .populate('userquibloquea', 'username email role');
+            if (blockedUsers.length === 0) {
+                return res.status(404).json({ msg: "No blocked users found." });
+            }
+
             return res.json({
                 success: true,
                 result: blockedUsers.length,
                 blockedUsers
             });
+
+
         } catch (err) {
             return res.status(500).json({ msg: err.message });
         }

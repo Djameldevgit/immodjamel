@@ -25,8 +25,8 @@ const DescriptionPost = ({ post }) => {
                     <span className="info-label">Titre:</span>
                     <span className="info-value">
                         &nbsp;  {post.title}
-                        {(String(post.title).trim().toLowerCase() === "villa" || String(post.title).trim().toLowerCase() === "appartement")  && " F"}
-                         {post.attributes.piece}
+                        {(String(post.title).trim().toLowerCase() === "villa" || String(post.title).trim().toLowerCase() === "appartement") && " F"}
+                        {post.attributes.piece}
                     </span>
                 </div>
 
@@ -149,13 +149,15 @@ const DescriptionPost = ({ post }) => {
                     </div>
                 )}
 
-                {post.price && (
+                {post.description && (
                     <div className="info-item">
-                        <i className={`fas ${post.price > 100 ? 'fa-tag' : 'fa-dollar-sign'}`}></i>
-                        <span className="info-label">Prix:</span>
-                        <span className="info-value">&nbsp; {post.price}&nbsp; {post.unidaddeprecio}</span>
+                        <i className="fas fa-comments"></i>
+                        <span className="info-label">Description:</span>
+                        <span className="info-value">&nbsp;{post.attributes.etage}</span>
                     </div>
                 )}
+
+
 
                 {post.oferta && (
                     <div className="info-item">
