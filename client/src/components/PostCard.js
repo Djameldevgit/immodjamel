@@ -12,7 +12,7 @@ import DescriptionPost from './home/post_card/DescriptionPost'
 import InformationUserPost from './home/post_card/InformationUserPost'
 import { useSelector } from 'react-redux';
  
-import CardFooterCommenttiempomodal from './home/post_card/CardFooterCommenttiempomodal'
+//import CardFooterCommenttiempomodal from './home/post_card/CardFooterCommenttiempomodal'
 
 const PostCard = ({ post, theme }) => {
     const location = useLocation();

@@ -49,8 +49,8 @@ const CardHeader = ({ post }) => {
     };
 
     return (
-        <div className="card_header">
-            {/* Verifica si auth.user existe antes de acceder a role */}
+        <div className="cardheaderpost">
+
             {auth.user?.role === "superuser" && (
                 <div className="d-flex">
                     <Avatar src={post.user.avatar} size="big-avatar" />
@@ -114,14 +114,14 @@ const CardHeader = ({ post }) => {
                 </div>
             )}
 
-{showReportModal && (
-    <ReportPost
-        post={post}
-        auth={auth}
-        onClose={() => setShowReportModal(false)}
-        onReport={handleReportPost}
-    />
-)}
+            {showReportModal && (
+                <ReportPost
+                    post={post}
+                    auth={auth}
+                    onClose={() => setShowReportModal(false)}
+                    onReport={handleReportPost}
+                />
+            )}
         </div>
     );
 };

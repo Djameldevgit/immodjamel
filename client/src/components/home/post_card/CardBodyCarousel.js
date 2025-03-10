@@ -96,6 +96,7 @@ const CardBodyCarousel = ({ post }) => {
     const closeModal = () => setShowAuthModal(false);
 
     return (
+        <>
         <div className="cardbodycarousel">
             <div onClick={() => history.push(`/post/${post._id}`)}>
                 <Carousel images={post.images} id={post._id} />
@@ -131,14 +132,16 @@ const CardBodyCarousel = ({ post }) => {
 
             {/* Agrega el componente CardFooterPost aquí */}
             <CardFooterPost post={post} />
-
-            <AuthModal
-                showModal={showAuthModal}
-                closeModal={closeModal}
-                redirectToLogin={redirectToLogin}
-                redirectToRegister={redirectToRegister}
-            />
         </div>
+
+        {/* Mueve el AuthModal fuera del contenedor del post */}
+        <AuthModal
+            showModal={showAuthModal}
+            closeModal={closeModal}
+            redirectToLogin={redirectToLogin}
+            redirectToRegister={redirectToRegister}
+        />
+    </>
     );
 };
 

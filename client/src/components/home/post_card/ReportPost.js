@@ -29,7 +29,7 @@ const ReportPost = ({ post, onClose }) => {
 
     return (
         <div className="modal-backdrop">
-            <div className="modal-content">
+            <div className="modalcontentreport">
                 {/* Botón de cierre */}
                 <button className="modal-close" onClick={onClose}>
                     &times; {/* Símbolo de "X" */}

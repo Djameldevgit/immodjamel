@@ -69,10 +69,10 @@ const Home = () => {
 
     return (
         <div className="home">
-    <button onClick={openModal} style={styles.searchButton}>
+    <button onClick={openModal} style={styles.searchButton} className = 'mt-2'>
         <span style={styles.searchIcon}>
-            <i className='fas fa-search'></i> 
-            <span>Recherche Immobilier</span>
+            <i className='fas fa-search' ></i> 
+            <span className='ml-3 '>Recherche Immobilier</span>
         </span>
        
     </button>
