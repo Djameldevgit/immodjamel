@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 const Login = () => {
     const { languageReducer } = useSelector(state => state);
-    const { t } = useTranslation();
+    const { t } = useTranslation();//{t('realestate', { lng: languageReducer.language })}
 
     const initialState = { email: '', password: '' };
     const [userData, setUserData] = useState(initialState);
@@ -36,7 +36,7 @@ const Login = () => {
         <div className="auth_page">
             <form onSubmit={handleSubmit}>
                 <h3 className="text-uppercase text-center mb-4">
-                    {t('realestate', { lng: languageReducer.language })}
+                Immobilier     
                 </h3>
 
                 {/* 📧 Input de Email */}

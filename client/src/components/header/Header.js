@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Menu from './Menu';
-import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+//import { useSelector } from 'react-redux';
+//import { useTranslation } from 'react-i18next';
  
 const Header = ( ) => {
-  const { languageReducer } = useSelector(state => state);
-  const { t } = useTranslation();
+  //const { languageReducer } = useSelector(state => state);
+ // const { t } = useTranslation(); {t('realestate', { lng: languageReducer.language })}
 
   return (
     <div className="header">
@@ -15,7 +15,7 @@ const Header = ( ) => {
           <h1 className="navbar-brand text-uppercase p-0 mt-2 ml-5"  onClick={() => {
                         window.scrollTo({top: 0}); // Desplaza la página al inicio
                        }}>
-            {t('realestate', { lng: languageReducer.language })}
+           Immobilier
           </h1>
           <img src='icon-web-01.png' className='imagelogo'alt="imagelogo" />
         </Link>
