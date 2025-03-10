@@ -8,7 +8,8 @@ import UserCard from "../UserCard";
 import BloqueModalUser from "./BloqueModalUser";
  
 const UsersEdicion = () => {
-  const { homeUsers, auth } = useSelector((state) => state);
+  const { homeUsers,reportReducer, auth } = useSelector((state) => state);
+  console.log(reportReducer)
   const dispatch = useDispatch();
   const [load, setLoad] = useState(false);
   const [search, setSearch] = useState("");

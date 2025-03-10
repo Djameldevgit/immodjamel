@@ -4,9 +4,9 @@ import LikeButton from '../../LikeButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { likePost, unLikePost, savePost, unSavePost } from '../../../redux/actions/postAction';
 import Carousel from '../../Carousel';
- 
 import AuthModal from './CardBodyCarouselAuthModal';
- 
+import CardFooterPost from './CardFooterPost'; // Importa el componente
+
 const CardBodyCarousel = ({ post }) => {
     const history = useHistory();
     const [isLike, setIsLike] = useState(false);
@@ -15,7 +15,7 @@ const CardBodyCarousel = ({ post }) => {
     const dispatch = useDispatch();
     const [saved, setSaved] = useState(false);
     const [saveLoad, setSaveLoad] = useState(false);
-    const [showAuthModal, setShowAuthModal] = useState(false); // Estado para el modal
+    const [showAuthModal, setShowAuthModal] = useState(false);
 
     // Likes
     useEffect(() => {
@@ -29,7 +29,7 @@ const CardBodyCarousel = ({ post }) => {
     const handleLike = async (e) => {
         e.stopPropagation();
         if (!auth.user) {
-            setShowAuthModal(true); // Mostrar modal si el usuario no está autenticado
+            setShowAuthModal(true);
             return;
         }
         if (loadLike) return;
@@ -41,7 +41,7 @@ const CardBodyCarousel = ({ post }) => {
     const handleUnLike = async (e) => {
         e.stopPropagation();
         if (!auth.user) {
-            setShowAuthModal(true); // Mostrar modal si el usuario no está autenticado
+            setShowAuthModal(true);
             return;
         }
         if (loadLike) return;
@@ -62,7 +62,7 @@ const CardBodyCarousel = ({ post }) => {
     const handleSavePost = async (e) => {
         e.stopPropagation();
         if (!auth.user) {
-            setShowAuthModal(true); // Mostrar modal si el usuario no está autenticado
+            setShowAuthModal(true);
             return;
         }
         if (saveLoad) return;
@@ -74,7 +74,7 @@ const CardBodyCarousel = ({ post }) => {
     const handleUnSavePost = async (e) => {
         e.stopPropagation();
         if (!auth.user) {
-            setShowAuthModal(true); // Mostrar modal si el usuario no está autenticado
+            setShowAuthModal(true);
             return;
         }
         if (saveLoad) return;
@@ -83,7 +83,6 @@ const CardBodyCarousel = ({ post }) => {
         setSaveLoad(false);
     };
 
-    // Funciones de redirección para el modal
     const redirectToLogin = () => {
         history.push('/login');
         setShowAuthModal(false);
@@ -103,22 +102,36 @@ const CardBodyCarousel = ({ post }) => {
             </div>
 
             <div className="card_icon_overlay">
-                <div className="icon_left">
-                    <LikeButton
-                        isLike={isLike}
-                        handleLike={handleLike}
-                        handleUnLike={handleUnLike}
-                    />
-                </div>
                 <div className="icon_right">
-                    {saved
-                        ? <i className="fas fa-bookmark text-info" onClick={handleUnSavePost} />
-                        : <i className="far fa-bookmark" onClick={handleSavePost} />
-                    }
+                    <div className="icon_container">
+                        <LikeButton
+                            isLike={isLike}
+                            handleLike={handleLike}
+                            handleUnLike={handleUnLike}
+                        />
+                        <span className="icon_count">{post.likes.length}</span>
+                    </div>
+                    <div className="icon_container">
+                        <i className="far fa-comment" />
+                        <span className="icon_count">{post.comments.length}</span>
+                    </div>
+                    <div className="icon_container">
+                        <i className="fas fa-share" />
+                        <span className="icon_count">{post.shares || 0}</span>
+                    </div>
+                    <div className="icon_container">
+                        {saved
+                            ? <i className="fas fa-bookmark text-info" onClick={handleUnSavePost} />
+                            : <i className="far fa-bookmark" onClick={handleSavePost} />
+                        }
+                        <span className="icon_count">{post.saves || 0}</span>
+                    </div>
                 </div>
             </div>
 
-            {/* Mostrar el modal de autenticación si el usuario no está autenticado */}
+            {/* Agrega el componente CardFooterPost aquí */}
+            <CardFooterPost post={post} />
+
             <AuthModal
                 showModal={showAuthModal}
                 closeModal={closeModal}

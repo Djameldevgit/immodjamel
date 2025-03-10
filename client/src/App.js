@@ -34,6 +34,7 @@ import Post from './pages/post'
 import Edicionusers from './pages/administration/users/edicionusers'
 import NotFound from './components/NotFound'
 import Home from './pages/home'
+import Reportuser from './pages/administration/users/reportuser';
 //import Bloqueos from './pages/bloqueos'
 
  
@@ -98,6 +99,7 @@ function App() {
                 <Route exact path="/administration/paginabloqueos" render={() => auth.token ? <Paginabloqueos /> : <Redirect to="/login" />} />
                 <Route exact path="/administration/homepostspendientes" render={() => auth.token ? <Homepostspendientes /> : <Redirect to="/login" />} />
                 <Route exact path="/administration/roles" render={() => auth.token ? <Roles /> : <Redirect to="/login" />} />
+                <Route exact path="/administration/users/reportuser" render={() => auth.token ? <Reportuser /> : <Redirect to="/login" />} />
                 
                   <Route exact path="/" render={() => <Home />} />   
                 <Route exact path="/login" render={() => auth.token ? <Redirect to={`/profile/${auth.user._id}`} /> : <Login />} />

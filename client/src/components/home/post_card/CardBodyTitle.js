@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
- 
+
 const CardBodyTitle = ({ post }) => {
     const location = useLocation();
     const isDetailPage = location.pathname === `/post/${post._id}`;
@@ -14,13 +14,16 @@ const CardBodyTitle = ({ post }) => {
                             <div className="title0">{post.subCategory}</div>
                             <div className="title2">{post.title}</div>
 
-                            {(post.title === "Appartement" || post.title === "Villa") && (
-                                <div className="title3"> F {post.attributes.piece}</div>
+                            {(post.title === "Appartement" || post.title === "Villa" || post.title === "Niveau de villa" || post.title === "Local") && (
+                                <div className="title3"> F{post.attributes.piece}</div>
                             )}
-                            {(post.title === "Terrain") && (
+                            {(post.title === "Terrain" || post.title === "Terrain Agricole" || post.title === "Usine") && (
                                 <div className="title3">   {post.attributes.superficie} M²</div>
                             )}
 
+                            {(post.subCategory === "Location_Vacances") && (
+                                <div className="title3">     </div>
+                            )}
                         </div>
 
                         <div className="titlelocation">
@@ -30,7 +33,7 @@ const CardBodyTitle = ({ post }) => {
                         </div>
                     </div>
                 )}
-              
+
 
             </div>
 

@@ -46,6 +46,7 @@ const StatusModal = () => {
         activarcomentarios:false,
         duraciondelanuncio:'',
         attributes: {
+            tiempodealquiler:"",
             superficie: "",
             etage: "",
             piece: "",
@@ -332,7 +333,7 @@ const StatusModal = () => {
                 <option value="">Catégorie...</option>
                 <option value="Vente">Vente</option>
                 <option value="Location">Location</option>
-                <option value="Location_Vacances">Location Vacances</option>
+                <option value="Location_Vacances">Location pour Vacances</option>
                 <option value="Echange">Echange</option>
                 <option value="Cherche_Location">Cherche Location</option>
                 <option value="Cherche_Achat">Cherche Achat</option>

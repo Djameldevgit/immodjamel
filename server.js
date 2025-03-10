@@ -33,7 +33,8 @@ app.use('/api', require('./routes/commentRouter'))
 app.use('/api', require('./routes/notifyRouter'))
 app.use('/api', require('./routes/messageRouter'))
 app.use('/api', require('./routes/blockUserRouter'))
-
+app.use('/api', require('./routes/languageRouter'));
+app.use('/api', require('./routes/reportRouter'));
 const URI = process.env.MONGODB_URL
 mongoose.connect(URI, {
     useCreateIndex: true,

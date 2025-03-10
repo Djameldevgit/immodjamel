@@ -6,10 +6,10 @@ import { getDataAPI } from '../../utils/fetchData';
 import { aprovarPostPendiente, POST_TYPES_APROVE } from '../../redux/actions/postAproveAction';
 import { deletePost } from '../../redux/actions/postAction';
 import { useHistory } from 'react-router-dom';
- 
+
 const PostsPendientes = () => {
     const { homePostsAprove, auth, socket } = useSelector((state) => state);
- 
+
     const dispatch = useDispatch();
     const history = useHistory();
     const [load, setLoad] = useState(false);
@@ -60,8 +60,9 @@ const PostsPendientes = () => {
                             <th>#</th>
                             <th>Image</th>
                             <th className="d-none d-md-table-cell">Total posts</th>
-                            <th>Títre</th>
                             <th>Utilizateur</th>
+                            <th>Catgories</th>
+                            <th>Títre</th>
                             <th>Etat</th>
                             <th className="d-none d-md-table-cell">Date</th>
                             <th>Acction</th>
@@ -89,13 +90,22 @@ const PostsPendientes = () => {
                                     </td>
 
                                     <td className="text-truncate" style={{ maxWidth: "150px" }}>{post.content}</td>
-                                    <td>{post.user.username}</td>
+                                    <td>   {post.user.username}  </td>
+                                    <td>{post.subCategory}</td>
+                                    <td>{post.title}</td>
+
                                     <td>
                                         <span className={`badge ${post.estado === 'pendiente' ? 'bg-warning text-dark' : 'bg-success'}`}>
                                             {post.estado}
                                         </span>
                                     </td>
+
+
+
                                     <td className="d-none d-md-table-cell">{new Date(post.createdAt).toLocaleDateString()}</td>
+
+
+
                                     <td>
                                         <div className="dropdown">
                                             <button className="btn btn-sm btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -128,7 +138,7 @@ const PostsPendientes = () => {
                 {load && <img src={LoadIcon} alt="loading" className="d-block mx-auto" />}
                 <LoadMoreBtn result={homePostsAprove.result} page={homePostsAprove.page} load={load} handleLoadMore={handleLoadMore} />
             </div>
- 
+
         </div>
     );
 };

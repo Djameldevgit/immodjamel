@@ -96,6 +96,7 @@ img {
 @import url("./usersadministration/cardfootercommenttiempomodal.css");
 @import url("./usersadministration/homemodalsearch.css");
 @import url("./usersadministration/paginabooqueo.css");
+@import url("./usersadministration/reportPostCadheader.css");
 
 /* --------- Responsive ------ */
 @media (max-width: 766px){

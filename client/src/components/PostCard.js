@@ -27,7 +27,7 @@ const PostCard = ({ post, theme }) => {
             <CardBodyTitle post={post} />
             <CardBodyCarousel post={post} theme={theme} />
 
-     <CardFooterCommenttiempomodal post={post} /> 
+     
             {isPostDetailPage && <DescriptionPost post={post} />}
 
 

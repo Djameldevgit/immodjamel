@@ -15,12 +15,16 @@
     margin-left: 10px; /* Asegura que no haya margen a la izquierda */
     padding-left: 0; /* Asegura que no haya padding a la izquierda */
 }
-.title0, .title2, .title3 {
+.title0    {
     margin: 0; /* Elimina el margen para que estén pegados */
-    font-size: 19px; /* Tamaño de fuente */
+    font-size: 18px; /* Tamaño de fuente */
     color: rgb(10, 9, 9); /* Color de texto */
 }
-
+ .title2, .title3 {
+    margin: 0; /* Elimina el margen para que estén pegados */
+    font-size: 17px; /* Tamaño de fuente */
+    color: rgb(10, 9, 9); /* Color de texto */
+}
 .title0 {
     font-weight:500 /* Negrita para el título principal */
 }

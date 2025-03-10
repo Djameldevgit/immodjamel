@@ -1,73 +1,103 @@
 .cardbodycarousel {
-   margin: 20px;
-   margin: 10px;
+    margin: 5px;
     position: relative;
-    border-radius: 15px; /* Bordes redondeados */
-    overflow: hidden; /* Para que los bordes redondeados se apliquen correctamente */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra suave */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+   
+
 }
 
 .cardbodycarousel:hover {
-    transform: translateY(-5px); /* Efecto de levitación al hacer hover */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al hacer hover */
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card_icon_overlay {
     position: absolute;
-    top: 10px; /* Posición más arriba */
-    width: 100%;
+    bottom: 10px;
+    right: 10px;
     display: flex;
-    justify-content: space-between;
-    padding: 0 15px; /* Más espacio a los lados */
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    
+
 }
 
-.icon_left, .icon_right {
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo más sólido */
-    padding: 8px; /* Más padding para un mejor tacto */
-    border-radius: 50%; /* Forma circular */
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Sombra para dar profundidad */
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Transición suave */
+.icon_right {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.icon_left:hover, .icon_right:hover {
-    background-color: rgba(255, 255, 255, 1); /* Fondo más sólido al hacer hover */
-    transform: scale(1.1); /* Efecto de escala al hacer hover */
+.icon_container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+     
+
 }
 
-/* Estilos para el botón de like */
-.icon_left svg {
-    fill: #ff4757; /* Color rojo moderno para el like */
-    width: 24px;
-    height: 24px;
-}
-
-/* Estilos para el ícono de guardar */
 .icon_right i {
-    color: #2f3542; /* Color oscuro moderno para el ícono de guardar */
+    color: white;
     font-size: 20px;
+    cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-/* Efecto de hover para el ícono de guardar */
 .icon_right i:hover {
-    color: #ff4757; /* Cambia a rojo al hacer hover */
+    color: #ff4757;
 }
 
+.icon_count {
+    color: white;
+    font-size: 12px;
+    margin-top: 0px;
+    font-weight: bold;
+}
+
+/* Estilos para la fecha de publicación */
+.cardbodycarousel  .cardfooterpost {
+    position: absolute;
+    bottom: 5px;
+     background: none;
+    left: 3px;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+ 
+  
+     
+    border-radius: 10px;
+}
+.cardbodycarousel  .cardfooterpost .textmuted{
+    
+    bottom: 10px;
+     background: none;
+    left: 10px;
+    color: rgb(255, 254, 254);
+    font-size: 12px;
+    font-weight: bold;
+    
+}
 /* Estilos para el carrusel */
 .carousel {
-    border-radius: 15px; /* Bordes redondeados */
-    overflow: hidden; /* Para que los bordes redondeados se apliquen correctamente */
-margin-top: 7px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-top: 7px;
 }
 
 .carousel img {
     width: 100%;
     height: auto;
     display: block;
-    transition: transform 0.3s ease; /* Transición suave para las imágenes */
+    transition: transform 0.3s ease;
 }
 
 .carousel img:hover {
-    transform: scale(1.05); /* Efecto de zoom suave al hacer hover */
+    transform: scale(1.05);
 }

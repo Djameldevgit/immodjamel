@@ -39,7 +39,7 @@ const Home = () => {
     });
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const subCategories = ['Vente', 'Location', 'Echange', 'Cherche_Achat', 'Cherche_Location'];
+    const subCategories = ['Vente', 'Location', 'Echange', 'Cherche_Achat', 'Cherche_Location', ' Location_Vacances'];
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;

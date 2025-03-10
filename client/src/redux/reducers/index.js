@@ -20,7 +20,8 @@ import userBlockReducer from './userBlcokReducer'
 import roleReducer from './roleeReducer'
 import homePostsAprove from './posAprovetReducer'
 import languageReducer from './languageReducer';
-  
+import reportReducer from './reportReducer'
+ 
 
 export default combineReducers({
     auth,
@@ -38,6 +39,6 @@ export default combineReducers({
     message,
     online,
     call,
-    peer,homeUsers, userBlockReducer,roleReducer,homePostsAprove,languageReducer
+    peer,homeUsers, userBlockReducer,roleReducer,homePostsAprove,languageReducer, reportReducer
 
 })

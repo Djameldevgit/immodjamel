@@ -19,16 +19,7 @@ const DescriptionPost = ({ post }) => {
                 </div>
 
 
-
-                <div className="info-item">
-                    <i className="fas fa-building"></i>
-                    <span className="info-label">Titre:</span>
-                    <span className="info-value">
-                        &nbsp;  {post.title}
-                        {(String(post.title).trim().toLowerCase() === "villa" || String(post.title).trim().toLowerCase() === "appartement") && " F"}
-                        {post.attributes.piece}
-                    </span>
-                </div>
+ 
 
                 <div className="info-item">
                     <i className="fas fa-calendar-alt"></i>
@@ -77,7 +68,13 @@ const DescriptionPost = ({ post }) => {
                         <span className="info-value">&nbsp;{post.comentarios || t("notSpecified", { lng: language })}</span>
                     </div>
                 )}
-
+                {post.attributes.tiempodealquiler && (
+                    <div className="info-item">
+                        <i className="far fa-clock"></i>
+                        <span className="info-label">Paiement par:</span>
+                        <span className="info-value">&nbsp;{post.attributes.tiempodealquiler}&nbsp;   </span>
+                    </div>
+                )}
                 {post.attributes.superficie && (
                     <div className="info-item">
                         <i className="fas fa-ruler"></i>
