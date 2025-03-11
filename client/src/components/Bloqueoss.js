@@ -20,24 +20,24 @@ const Bloqueoss = () => {
         <div className="bloqueo-container">
             {isBlocked ? (
                 <div className="bloqueo-card">
-                    <h2>Usuario Bloqueado</h2>
+                    <h2>Système de blocage Immobilier reghaia</h2>
                     <div className="bloqueo-info">
                         <div className="bloqueo-item">
-                            <span className="label">Nombre: </span>
+                            <span className="label">Nom d'utilisateur: </span>
                             <span className="value">{user.username}</span>
                         </div>
                         <div className="bloqueo-item">
-                            <span className="label">Motivo: </span>
+                            <span className="label">Raison: </span>
                             <span className="value">{userBlockReducer.blockedUsers.find(blockedUser => blockedUser.user._id === user._id)?.motivo || 'No disponible'}</span>
                         </div>
                         <div className="bloqueo-item">
-                            <span className="label">Fecha de Bloqueo: </span>
+                            <span className="label">Date du blocage: </span>
                             <span className="value">
                                 {new Date(userBlockReducer.blockedUsers.find(blockedUser => blockedUser.user._id === user._id)?.fechaBloqueo).toLocaleDateString() || 'No disponible'}
                             </span>
                         </div>
                         <div className="bloqueo-item">
-                            <span className="label">Fecha de Desbloqueo: </span>
+                            <span className="label">Fin du blocage: </span>
                             <span className="value">
                                 {userBlockReducer.blockedUsers.find(blockedUser => blockedUser.user._id === user._id)?.fechaLimite 
                                     ? new Date(userBlockReducer.blockedUsers.find(blockedUser => blockedUser.user._id === user._id)?.fechaLimite).toLocaleDateString()
@@ -48,7 +48,7 @@ const Bloqueoss = () => {
                 </div>
             ) : (
                 <div className="bloqueo-card">
-                    <h2>El usuario no está bloqueado</h2>
+                    <h2>Utilizateur et desbloque</h2>
                 </div>
             )}
         </div>

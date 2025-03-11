@@ -30,10 +30,10 @@ const reportCtrl = {
 
             // Guardar el reporte en la base de datos
             await newReport.save();
-
+          
             res.status(201).json({
-                success: true,
-                message: "Reporte creado correctamente.",
+                
+                msg: "Merci port votre reporte.",
                 report: newReport,
             });
         } catch (err) {

@@ -3,12 +3,12 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f4f4f9;
+    background-color: #c50000;
     padding: 20px;
 }
 
 .bloqueo-card {
-    background-color: #fff;
+    background-color: rgb(104, 0, 0);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
@@ -19,7 +19,7 @@
 
 .bloqueo-card h2 {
     font-size: 24px;
-    color: #333;
+    color: rgb(243, 235, 235);
     margin-bottom: 20px;
 }
 
@@ -28,6 +28,7 @@
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
+   
 }
 
 .bloqueo-item {
@@ -38,11 +39,11 @@
 
 .label {
     font-weight: bold;
-    color: #555;
+    color: rgb(243, 235, 235);
 }
 
 .value {
-    color: #333;
+    color: rgb(243, 235, 235);
     font-size: 16px;
 }
 

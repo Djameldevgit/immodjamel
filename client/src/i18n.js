@@ -98,6 +98,11 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
       "Advanced search...":"Advanced search...",
       "Select fields": "Select fields",
       "Category...":"Category...",
+
+
+      "Search by title and province":"Search by title and province",
+
+
       }
 
 
@@ -188,10 +193,10 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
         "Advanced search...":"Recherche avancée...",
          
         "Select fields": "Sélectionnez les champs",
-        "Category...":"Catégorie..."
+        "Category...":"Catégorie...",
         
 
-
+        "Search by title and province":"Recherche par titre et province",
 
       }
     },
@@ -306,8 +311,8 @@ i18n.use(LanguageDetector).use(initReactI18next).init({
         "See more articles":  "رؤية المزيد من المقالات",
         "Advanced search...":"...بحث متقدم",
         "Select fields": "اختيار المعلومات",
-        "Category...":"Catégorie..."
-
+        "Category...":"Catégorie...",
+        "Search by title and province":"البحث حسب العنوان والموقع",
 
       }
     },

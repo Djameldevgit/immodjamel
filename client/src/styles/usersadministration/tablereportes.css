@@ -1,0 +1,77 @@
+/* Estilos generales para el contenedor */
+.reported-users {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Estilos para la tabla */
+  .table-container {
+    width: 100%;
+    overflow-x: auto; /* Permite el desplazamiento horizontal en pantallas pequeñas */
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th,
+  td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+  }
+  
+  tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  /* Estilos para la información del usuario */
+  .user-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    th,
+    td {
+      min-width: 150px; /* Ancho mínimo para las celdas en pantallas pequeñas */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    th,
+    td {
+      padding: 8px 10px;
+      font-size: 14px;
+    }
+  
+    h2 {
+      font-size: 20px;
+    }
+  
+    .user-avatar {
+      width: 30px;
+      height: 30px;
+    }
+  }

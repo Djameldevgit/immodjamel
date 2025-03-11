@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-const Modalsearchhome = ({ isOpen, onClose, children }) => {
+const Modalsearchhome = ({ isOpen, onClose, children  }) => {
     if (!isOpen) return null;
 
     return (
@@ -10,7 +10,7 @@ const Modalsearchhome = ({ isOpen, onClose, children }) => {
                 <button style={styles.closeButton} onClick={onClose}>
                     &times;
                 </button>
-                {children}
+                {children }
             </div>
         </div>
     );

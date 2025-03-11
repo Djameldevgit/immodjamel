@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route,   Redirect } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 
 import Login from './pages/login'
@@ -35,15 +35,33 @@ import Edicionusers from './pages/administration/users/edicionusers'
 import NotFound from './components/NotFound'
 import Home from './pages/home'
 import Reportuser from './pages/administration/users/reportuser';
-//import Bloqueos from './pages/bloqueos'
+import Bloqueos from './pages/bloqueos'
+import { useHistory } from 'react-router-dom';
 
- 
+
 function App() {
-  const { auth, status, modal, call }= useSelector(state => state); //, userBlockReducer }
+  const { auth, status, modal, call, userBlockReducer } = useSelector(state => state); //, userBlockReducer }
+
   const dispatch = useDispatch();
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const history = useHistory()
+  useEffect(() => {
+    if (auth.token && !isLoggedIn) {
+      setIsLoggedIn(true); // Marcar que el usuario acaba de iniciar sesión
+    }
+  }, [auth.token, isLoggedIn]); // Agrega isLoggedIn como dependencia
   // Verificamos si el usuario está bloqueado
-  //const blockedUser = userBlockReducer.blockedUsers.find(blockedUser => blockedUser.user._id === auth.user?._id);
+  const blockedUser = userBlockReducer.blockedUsers.find(blockedUser => blockedUser.user._id === auth.user?._id);
+  useEffect(() => {
+
+    if (blockedUser) {
+      // Si el usuario está bloqueado, redirigir a la página de bloqueos
+      <Redirect to={'/bloqueos'} />
+    }
+
+  }, [blockedUser, history]);
+
+
 
   useEffect(() => {
     dispatch(refreshToken());
@@ -69,9 +87,9 @@ function App() {
   useEffect(() => {
     if (!("Notification" in window)) {
       alert("This browser does not support desktop notification");
-    } else if (Notification.permission === "granted") {} else if (Notification.permission !== "denied") {
+    } else if (Notification.permission === "granted") { } else if (Notification.permission !== "denied") {
       Notification.requestPermission().then(function (permission) {
-        if (permission === "granted") {}
+        if (permission === "granted") { }
       });
     }
   }, []);
@@ -82,34 +100,35 @@ function App() {
       <input type="checkbox" id="theme" />
       <div className={`App ${(status || modal) && 'mode'}`}>
         <div className="main">
-         
-        <Header /> 
-          
+
+
+          {!blockedUser ? <Header />
+            : null
+          }
+
+
           {status && <StatusModal />}
           {auth.token && <SocketClient />}
           {call && <CallModal />}
 
           <Switch>
-             
-             
-              <div>
-                  <Route exact path="/administration/usersaction" render={() => auth.token ? <UsersActionn /> : <Redirect to="/login" />} />
-                <Route exact path="/administration/usersedicion" render={() => auth.token ? <Edicionusers /> : <Redirect to="/login" />} />
-                <Route exact path="/administration/listadeusuariosbloqueadoss" render={() => auth.token ? <Listadeusuariosbloqueadoss /> : <Redirect to="/login" />} />
-                <Route exact path="/administration/paginabloqueos" render={() => auth.token ? <Paginabloqueos /> : <Redirect to="/login" />} />
-                <Route exact path="/administration/homepostspendientes" render={() => auth.token ? <Homepostspendientes /> : <Redirect to="/login" />} />
-                <Route exact path="/administration/roles" render={() => auth.token ? <Roles /> : <Redirect to="/login" />} />
-                <Route exact path="/administration/users/reportuser" render={() => auth.token ? <Reportuser /> : <Redirect to="/login" />} />
-                
-                  <Route exact path="/" render={() => <Home />} />   
-                <Route exact path="/login" render={() => auth.token ? <Redirect to={`/profile/${auth.user._id}`} /> : <Login />} />
-                <Route exact path="/register" render={() => auth.token ? <Redirect to={`/profile/${auth.user._id}`} /> : <Register />} />
-                <Route exact path="/profile/:id" render={(props) => auth.token ? <Profile {...props} /> : <Redirect to="/login" />} />
-                <Route exact path="/post/:id" component={Post} />
-              </div>
-          
+            <Route exact path="/administration/usersaction" render={() => auth.token ? <UsersActionn /> : <Redirect to="/login" />} />
+            <Route exact path="/administration/usersedicion" render={() => auth.token ? <Edicionusers /> : <Redirect to="/login" />} />
+            <Route exact path="/administration/listadeusuariosbloqueadoss" render={() => auth.token ? <Listadeusuariosbloqueadoss /> : <Redirect to="/login" />} />
+            <Route exact path="/administration/paginabloqueos" render={() => auth.token ? <Paginabloqueos /> : <Redirect to="/login" />} />
+            <Route exact path="/administration/homepostspendientes" render={() => auth.token ? <Homepostspendientes /> : <Redirect to="/login" />} />
+            <Route exact path="/administration/roles" render={() => auth.token ? <Roles /> : <Redirect to="/login" />} />
+            <Route exact path="/administration/users/reportuser" render={() => auth.token ? <Reportuser /> : <Redirect to="/login" />} />
+            <Route exact path="/" render={() => <Home />} />
+            <Route exact path="/login" render={() => auth.token && isLoggedIn ? (
+              <Redirect to={`/profile/${auth.user._id}`} />) : (<Login />)} />
+            <Route exact path="/register"
+              render={() => auth.token && isLoggedIn ? (<Redirect to={`/profile/${auth.user._id}`} />) : (<Register />)} />
+            <Route exact path="/profile/:id" render={(props) => auth.token ? <Profile {...props} /> : <Redirect to="/login" />} />
+            <Route exact path="/post/:id" component={Post} />
 
-              <Route component={NotFound} />
+            <Route exact path="/bloqueos" component={Bloqueos} />
+            <Route component={NotFound} />
           </Switch>
         </div>
       </div>

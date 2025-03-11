@@ -4,7 +4,7 @@ import { useHistory, Link } from 'react-router-dom'
 import { register } from '../redux/actions/authAction'
 
 import { useTranslation } from "react-i18next";
-//{t('realestate', { lng: languageReducer.language })}
+
 const Register = () => {
  
      const { t } = useTranslation()
@@ -40,7 +40,7 @@ const Register = () => {
         <div className="auth_page">
             <form onSubmit={handleSubmit}>
                 <h3 className="text-uppercase text-center mb-4">
-                  S'inscrire  
+               {t('realestate', { lng: languageReducer.language })}
                 </h3>
 
                 {/* 👤 Nombre de Usuario */}

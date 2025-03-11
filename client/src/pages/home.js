@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import Posts from '../components/home/Posts';
 import LoadIcon from '../images/loading.gif';
 import WilayaCommune from '../components/WilayaCommune';
 import Modalsearchhome from './../components/Modalsearchhome';
+import { useHistory } from 'react-router-dom';
+ 
+ 
 //import { useHistory } from 'react-router-dom';
 const Home = () => {
-    const { homePosts, } = useSelector(state => state);
-   /* auth, userBlockReducer const history = useHistory();  // ✅ Usamos history aquí
+    const { homePosts,auth  , userBlockReducer} = useSelector(state => state);
+ 
+    
+    const history = useHistory();  // ✅ Usamos history aquí
  
     useEffect(() => {
         // Verifica si el usuario no está autenticado
@@ -24,7 +29,7 @@ const Home = () => {
             }
         }
     }, [auth.token, auth.user, userBlockReducer.blockedUsers, history]);
-*/
+ 
 
 
     const [filters, setFilters] = useState({

@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { logout } from '../../redux/actions/authAction'
@@ -8,19 +8,28 @@ import NotifyModal from '../NotifyModal'
 import LanguageSelector from '../LanguageSelector'
 import Modalsearchhome from '../Modalsearchhome'
 //import { useTranslation } from 'react-i18next'
- 
-const Menu = () => {
 
-    const [isModalOpen, setIsModalOpen] = useState(false); 
+const Menu = () => {
+    const [filters, setFilters] = useState({ title: '' });
+
+
+    const handleFilterChange = (e) => {
+        const { name, value } = e.target;
+        setFilters({ ...filters, [name]: value });
+    };
+
+     
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => {
         setIsModalOpen(true);
-      };
-    
-      // Función para cerrar el modal
-      const closeModal = () => {
+    };
+
+    // Función para cerrar el modal
+    const closeModal = () => {
         setIsModalOpen(false);
-      };
-    
+    };
+
     const navLinks = [
         { label: 'Home', icon: 'home', path: '/' },
         { label: 'Search', icon: 'search', path: '#' },
@@ -37,31 +46,42 @@ const Menu = () => {
 
     return (
         <div className="menu">
-           
-            
-  <ul className="navbar-nav flex-row">
-        {navLinks.map((link, index) => (
-          <li className={`nav-item px-2 ${isActive(link.path)}`} key={index}>
-            <Link
-              className="nav-link"
-              to={link.path}
-              onClick={() => {
-                if (link.label === "Search") {
-                  openModal(); // Abre el modal solo si es el ícono de búsqueda
-                }
-              }}
-            >
-              <span className="material-icons">{link.icon}</span>
-            </Link>
-          </li>
-        ))}
-        <Modalsearchhome isOpen={isModalOpen} onClose={closeModal}>
-        <div>
-          <h2>Buscar</h2>
-          <input type="text" placeholder="Escribe para buscar..." />
-          <button onClick={closeModal}>Cerrar</button>
-        </div>
-      </Modalsearchhome>
+
+
+            <ul className="navbar-nav flex-row">
+                {navLinks.map((link, index) => (
+                    <li className={`nav-item px-2 ${isActive(link.path)}`} key={index}>
+                        <Link
+                            className="nav-link"
+                            to={link.path}
+                            onClick={() => {
+                                if (link.label === "Search") {
+                                    openModal(); // Abre el modal solo si es el ícono de búsqueda
+                                }
+                            }}
+                        >
+                            <span className="material-icons">{link.icon}</span>
+                        </Link>
+                    </li>
+                ))}
+                <Modalsearchhome isOpen={isModalOpen} onClose={closeModal}>
+                    <div>
+                        <h3>Search by title and province</h3>
+                        <div className="filter-group">
+                            <small>Titre</small>
+                            <input
+                                type="text"
+                                name="title"
+                                placeholder="Titre"
+                                onChange={handleFilterChange}
+                                value={filters.title}
+                            />
+
+
+                        </div>
+                        <button onClick={closeModal}>Cerrar</button>
+                    </div>
+                </Modalsearchhome>
                 {/* Icono de notificaciones */}
                 <li className="nav-item dropdown" style={{ opacity: 1 }}>
                     <span className="nav-link position-relative" id="navbarDropdown"
@@ -96,8 +116,8 @@ const Menu = () => {
                             {/* Opciones para administradores */}
                             {auth.user.role === "admin" && (
                                 <>
-                                  <Link className="dropdown-item" to='/administration/users/reportuser'>Reports user </Link>
-                                 
+                                    <Link className="dropdown-item" to='/administration/users/reportuser'>Reports user </Link>
+
                                     <Link className="dropdown-item" to='/administration/homepostspendientes'>Posts pendientes</Link>
                                     <Link className="dropdown-item" to='/administration/roles'>Roles</Link>
                                     <Link className="dropdown-item" to='/administration/usersaction'>Usuarios acción</Link>
@@ -127,7 +147,7 @@ const Menu = () => {
                     <div className="btn-group user-icon-container">
                         <i className="fas fa-user user-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
                         <div className="dropdown-menu  ">
-                            
+
                             <Link className="dropdown-item" to='/login'>Se conecter</Link>
                             <div className="dropdown-divider"></div>
                             <Link className="dropdown-item" to='/register'>Sinscrire</Link>

@@ -98,6 +98,8 @@ img {
 @import url("./usersadministration/paginabooqueo.css");
 @import url("./usersadministration/reportPostCadheader.css");
 @import url("./usersadministration/cardheaderpost.css");
+@import url("./usersadministration/tablereportes.css");
+
 /* --------- Responsive ------ */
 @media (max-width: 766px){
   .header .navbar .logo{
