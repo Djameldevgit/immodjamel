@@ -40,7 +40,9 @@ const CardBodyTitle = ({ post }) => {
             {!isDetailPage && (
 
                 <div className="titlelocation">
-                    <span> <i className="fa fa-map-marker" ></i></span>
+ 
+
+                    <span> <i className="fas fa-map-marker-alt" ></i></span>
                     <div className="title4">{post.wilaya}</div>
                     <div className="title4">{post.commune},</div>
                     <div ><span className="ml-1 mr-1 text-danger">{post.price}</span> <span>{post.unidaddeprecio}</span> <span> </span></div>

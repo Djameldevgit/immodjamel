@@ -8,7 +8,7 @@ import AuthModal from './CardBodyCarouselAuthModal';
 import CardFooterPost from './CardFooterPost';
 import ShareModal from '../../ShareModal';
 import { BASE_URL } from '../../../utils/config'
-const CardBodyCarousel = ({ post }) => {
+const PostCardOverlay = ({ post }) => {
     const history = useHistory();
     const [isLike, setIsLike] = useState(false);
     const [loadLike, setLoadLike] = useState(false);
@@ -107,40 +107,48 @@ const CardBodyCarousel = ({ post }) => {
 
     return (
         <>
-            <div className="card">
-                <div className="card__image" onClick={() => history.push(`/post/${post._id}`)}>
+            <div className="post-card">
+                <div className="post-card__image" onClick={() => history.push(`/post/${post._id}`)}>
                     <Carousel images={post.images} id={post._id} />
+
+                    {/* Overlay de acciones */}
+                    <div className="post-card__overlay">
+                        <div className="post-card__actions">
+                            <div className="post-card__action">
+                                <LikeButton
+                                    isLike={isLike}
+                                    handleLike={handleLike}
+                                    handleUnLike={handleUnLike}
+                                />
+                                <span className="post-card__action-count">{post.likes.length}</span>
+                            </div>
+
+                            <div className="post-card__action" onClick={handleCommentClick}>
+                                <i className="far fa-comment post-card__action-icon" />
+                                <span className="post-card__action-count">{post.comments.length}</span>
+                            </div>
+
+                            <div className="post-card__action" onClick={() => setIsShare(!isShare)}>
+                                <i className="fas fa-share post-card__action-icon" />
+                            </div>
+
+                            <div className="post-card__action" onClick={saved ? handleUnSavePost : handleSavePost}>
+                                {saved
+                                    ? <i className="fas fa-bookmark post-card__action-icon" />
+                                    : <i className="far fa-bookmark post-card__action-icon" />
+                                }
+                                <span className="post-card__action-count">{post.saves || 0}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="card__actions">
-                    <div className="card__actions-left">
-                        <LikeButton
-                            isLike={isLike}
-                            handleLike={handleLike}
-                            handleUnLike={handleUnLike}
-                        />
-                        <span className="card__action-count">{post.likes.length}</span>
-
-                        <i className="far fa-comment card__action-icon" onClick={handleCommentClick} />
-                        <span className="card__action-count">{post.comments.length}</span>
-
-                        <i className="fas fa-share card__action-icon" onClick={() => setIsShare(!isShare)} />
-                    </div>
-
-                    <div className="card__actions-right">
-                        {saved
-                            ? <i className="fas fa-bookmark card__action-icon" onClick={handleUnSavePost} />
-                            : <i className="far fa-bookmark card__action-icon" onClick={handleSavePost} />
-                        }
-                        <span className="card__action-count">{post.saves || 0}</span>
-                    </div>
-                </div>
-
-                {isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`}  />}
-
+                {/* Footer del post */}
                 <CardFooterPost post={post} />
             </div>
 
+            {/* Modales */}
+            {isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`}   />}
             <AuthModal
                 showModal={showAuthModal}
                 closeModal={closeModal}
@@ -151,4 +159,4 @@ const CardBodyCarousel = ({ post }) => {
     );
 };
 
-export default CardBodyCarousel;
+export default PostCardOverlay;

@@ -1,104 +1,64 @@
-.cardbodycarousel {
-    margin: 5px;
-    position: relative;
-    border-radius: 15px;
+.card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-   
-
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
 }
 
-.cardbodycarousel:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0);
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.card_icon_overlay {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+.card__image {
+    cursor: pointer;
+    position: relative;
+    width: 100%;
+    height: 300px; /* Ajusta según necesites */
+    overflow: hidden;
+}
+
+.card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card__actions {
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.card__actions-left,
+.card__actions-right {
+    display: flex;
     align-items: center;
     gap: 15px;
-    
-
 }
 
-.icon_right {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: auto;
-}
-
-.icon_container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-     
-
-}
-
-.icon_right i {
-    color: white;
+.card__action-icon {
     font-size: 20px;
     cursor: pointer;
+    color: #333;
     transition: color 0.3s ease;
 }
 
-.icon_right i:hover {
-    color: #ff4757;
+.card__action-icon:hover {
+    color: #007bff;
 }
 
-.icon_count {
-    color: white;
-    font-size: 12px;
-    margin-top: 0px;
-    font-weight: bold;
+.card__action-count {
+    font-size: 14px;
+    color: #666;
 }
 
-/* Estilos para la fecha de publicación */
-.cardbodycarousel  .cardfooterpost {
-    position: absolute;
-    bottom: 5px;
-     background: none;
-    left: 5px;
-    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
- 
-  
-     
-    border-radius: 10px;
-}
-.cardbodycarousel  .cardfooterpost .textmuted{
-    
-    bottom: 10px;
-     background: none;
-    left: 10px;
-    color: rgb(255, 254, 254);
-    font-size: 12px;
-    font-weight: bold;
-    
-}
-/* Estilos para el carrusel */
-.carousel {
-    border-radius: 15px;
-    overflow: hidden;
-    margin-top: 7px;
-}
-
-.carousel img {
-    width: 100%;
-    height: auto;
-    display: block;
-    transition: transform 0.3s ease;
-}
-
-.carousel img:hover {
-    transform: scale(1.05);
+.card__footer {
+    padding: 10px 15px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 14px;
+    color: #666;
 }

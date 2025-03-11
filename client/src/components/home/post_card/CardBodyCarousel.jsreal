@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory  } from 'react-router-dom';
 import LikeButton from '../../LikeButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { likePost, unLikePost, savePost, unSavePost } from '../../../redux/actions/postAction';
 import Carousel from '../../Carousel';
 import AuthModal from './CardBodyCarouselAuthModal';
-import CardFooterPost from './CardFooterPost';
-import ShareModal from '../../ShareModal';
-import { BASE_URL } from '../../../utils/config'
+import CardFooterPost from './CardFooterPost'; // Importa el componente
+
 const CardBodyCarousel = ({ post }) => {
     const history = useHistory();
     const [isLike, setIsLike] = useState(false);
@@ -17,7 +16,6 @@ const CardBodyCarousel = ({ post }) => {
     const [saved, setSaved] = useState(false);
     const [saveLoad, setSaveLoad] = useState(false);
     const [showAuthModal, setShowAuthModal] = useState(false);
-    const [isShare, setIsShare] = useState(false);
 
     // Likes
     useEffect(() => {
@@ -107,47 +105,55 @@ const CardBodyCarousel = ({ post }) => {
 
     return (
         <>
-            <div className="card">
-                <div className="card__image" onClick={() => history.push(`/post/${post._id}`)}>
-                    <Carousel images={post.images} id={post._id} />
-                </div>
+        <div className="cardbodycarousel">
+            <div onClick={() => history.push(`/post/${post._id}`)}>
+                <Carousel images={post.images} id={post._id} />
+            </div>
 
-                <div className="card__actions">
-                    <div className="card__actions-left">
+            <div className="card_icon_overlay">
+                <div className="icon_right">
+                    <div className="icon_container">
                         <LikeButton
                             isLike={isLike}
                             handleLike={handleLike}
                             handleUnLike={handleUnLike}
                         />
-                        <span className="card__action-count">{post.likes.length}</span>
-
-                        <i className="far fa-comment card__action-icon" onClick={handleCommentClick} />
-                        <span className="card__action-count">{post.comments.length}</span>
-
-                        <i className="fas fa-share card__action-icon" onClick={() => setIsShare(!isShare)} />
+                        <span className="icon_count">{post.likes.length}</span>
                     </div>
+                    <div className="icon_container">
+                   
+                        <i className="far fa-comment"onClick={handleCommentClick} />
+                  
 
-                    <div className="card__actions-right">
+                        
+                        <span className="icon_count">{post.comments.length}</span>
+                    </div>
+                    <div className="icon_container">
+                        <i className="fas fa-share" />
+                        <span className="icon_count">{post.shares || 0}</span>
+                    </div>
+                    <div className="icon_container">
                         {saved
-                            ? <i className="fas fa-bookmark card__action-icon" onClick={handleUnSavePost} />
-                            : <i className="far fa-bookmark card__action-icon" onClick={handleSavePost} />
+                            ? <i className="fas fa-bookmark text-info" onClick={handleUnSavePost} />
+                            : <i className="far fa-bookmark" onClick={handleSavePost} />
                         }
-                        <span className="card__action-count">{post.saves || 0}</span>
+                        <span className="icon_count">{post.saves || 0}</span>
                     </div>
                 </div>
-
-                {isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`}  />}
-
-                <CardFooterPost post={post} />
             </div>
 
-            <AuthModal
-                showModal={showAuthModal}
-                closeModal={closeModal}
-                redirectToLogin={redirectToLogin}
-                redirectToRegister={redirectToRegister}
-            />
-        </>
+            {/* Agrega el componente CardFooterPost aquí */}
+            <CardFooterPost post={post} />
+        </div>
+
+        {/* Mueve el AuthModal fuera del contenedor del post */}
+        <AuthModal
+            showModal={showAuthModal}
+            closeModal={closeModal}
+            redirectToLogin={redirectToLogin}
+            redirectToRegister={redirectToRegister}
+        />
+    </>
     );
 };
 

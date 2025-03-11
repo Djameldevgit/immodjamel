@@ -7,7 +7,8 @@ import Carousel from '../../Carousel';
 import AuthModal from './CardBodyCarouselAuthModal';
 import CardFooterPost from './CardFooterPost';
 import ShareModal from '../../ShareModal';
-import { BASE_URL } from '../../../utils/config'
+import { BASE_URL } from '../../../utils/config';
+
 const CardBodyCarousel = ({ post }) => {
     const history = useHistory();
     const [isLike, setIsLike] = useState(false);
@@ -107,40 +108,44 @@ const CardBodyCarousel = ({ post }) => {
 
     return (
         <>
-            <div className="card">
-                <div className="card__image" onClick={() => history.push(`/post/${post._id}`)}>
+            <div className="uniform-post">
+                <div className="uniform-post__media" onClick={() => history.push(`/post/${post._id}`)}>
                     <Carousel images={post.images} id={post._id} />
+
+                    {/* Overlay de acciones */}
+                    <div className="uniform-post__overlay">
+                        <div className="uniform-post__actions">
+                            <div className="uniform-post__action" onClick={isLike ? handleUnLike : handleLike}>
+                                <i className={`fas fa-heart ${isLike ? 'uniform-post__action--active' : ''}`} />
+                                <span className="uniform-post__action-count">{post.likes.length}</span>
+                            </div>
+
+                            <div className="uniform-post__action" onClick={handleCommentClick}>
+                                <i className="far fa-comment" />
+                                <span className="uniform-post__action-count">{post.comments.length}</span>
+                            </div>
+
+                            <div className="uniform-post__action" onClick={() => setIsShare(!isShare)}>
+                                <i className="fas fa-share" />
+                            </div>
+
+                            <div className="uniform-post__action" onClick={saved ? handleUnSavePost : handleSavePost}>
+                                {saved
+                                    ? <i className="fas fa-bookmark uniform-post__action--active" />
+                                    : <i className="far fa-bookmark" />
+                                }
+                                <span className="uniform-post__action-count">{post.saves || 0}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="card__actions">
-                    <div className="card__actions-left">
-                        <LikeButton
-                            isLike={isLike}
-                            handleLike={handleLike}
-                            handleUnLike={handleUnLike}
-                        />
-                        <span className="card__action-count">{post.likes.length}</span>
-
-                        <i className="far fa-comment card__action-icon" onClick={handleCommentClick} />
-                        <span className="card__action-count">{post.comments.length}</span>
-
-                        <i className="fas fa-share card__action-icon" onClick={() => setIsShare(!isShare)} />
-                    </div>
-
-                    <div className="card__actions-right">
-                        {saved
-                            ? <i className="fas fa-bookmark card__action-icon" onClick={handleUnSavePost} />
-                            : <i className="far fa-bookmark card__action-icon" onClick={handleSavePost} />
-                        }
-                        <span className="card__action-count">{post.saves || 0}</span>
-                    </div>
-                </div>
-
-                {isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`}  />}
-
+                {/* Footer del post */}
                 <CardFooterPost post={post} />
             </div>
 
+            {/* Modales */}
+            {isShare && <ShareModal url={`${BASE_URL}/post/${post._id}`} />}
             <AuthModal
                 showModal={showAuthModal}
                 closeModal={closeModal}

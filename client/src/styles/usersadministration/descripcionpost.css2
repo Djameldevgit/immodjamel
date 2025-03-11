@@ -34,8 +34,8 @@
 /* 📌 Lista de información */
 .post-info {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
 }
 
 /* 🔹 Ítems de información */
@@ -65,12 +65,10 @@
 /* 🔹 Textos */
 .info-label {
     font-weight: 600;
-    color: #333;
 }
 
 .info-value {
     font-weight: 400;
-    color: #666;
 }
 
 /* 📌 Responsivo */
