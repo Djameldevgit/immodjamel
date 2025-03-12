@@ -114,11 +114,12 @@ const Menu = () => {
                             <Link className="dropdown-item" onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true })}>
                                 Ajouter un annnoces
                             </Link>
-
-                            {/* Opciones para administradores */}
+                            <Link className="dropdown-item" to='/informacionaplicacion'>Info aplicacion</Link>
+                                 
+                            
                             {auth.user.role === "admin" && (
                                 <>
-                                    <Link className="dropdown-item" to='/administration/users/reportuser'>Reports user </Link>
+                                       <Link className="dropdown-item" to='/administration/users/reportuser'>Reports user </Link>
 
                                     <Link className="dropdown-item" to='/administration/homepostspendientes'>Posts pendientes</Link>
                                     <Link className="dropdown-item" to='/administration/roles'>Roles</Link>
@@ -140,7 +141,7 @@ const Menu = () => {
                             {/* Logout */}
                             <div className="dropdown-divider"></div>
                             <Link className="dropdown-item" to="/" onClick={() => dispatch(logout())}>
-                                Logout
+                               Desconexion
                             </Link>
                         </div>
                     </li>
@@ -149,7 +150,8 @@ const Menu = () => {
                     <div className="btn-group user-icon-container">
                         <i className="fas fa-user user-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
                         <div className="dropdown-menu  ">
-
+                        <Link className="dropdown-item" to='/informacionaplicacion'>Info aplicacion</Link>
+                                  
                             <Link className="dropdown-item" to='/login'>Se conecter</Link>
                             <div className="dropdown-divider"></div>
                             <Link className="dropdown-item" to='/register'>Sinscrire</Link>

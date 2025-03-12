@@ -38,6 +38,7 @@ import Reportuser from './pages/administration/users/reportuser';
 import Bloqueos from './pages/bloqueos'
 import { useHistory } from 'react-router-dom';
 import Message from './pages/message';
+import InfoAplicacion from './components/InfoAplicacion';
 
 
 function App() {
@@ -117,6 +118,7 @@ function App() {
 
             <Route exact path="/message/:id" render={(props) => auth.token ? <Message {...props} /> : <Redirect to="/login" />} />
             <Route exact path="/message" render={() => (auth.token ? <Message /> : <Redirect to="/login" />)} />
+            <Route exact path="/informacionaplicacion" render={() => (auth.token ? <InfoAplicacion /> : <Redirect to="/login" />)} />
 
 
             <Route exact path="/administration/usersaction" render={() => auth.token ? <UsersActionn /> : <Redirect to="/login" />} />
