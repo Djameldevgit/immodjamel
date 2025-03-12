@@ -2,4 +2,6 @@
     display: flex;
     justify-content: flex-end; /* Alinea los elementos hijos a la derecha */
     margin-right: 15px;
+    
+    
 }

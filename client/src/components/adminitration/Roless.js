@@ -75,7 +75,7 @@ const Roless = () => {
           onChange={(e) => handleRoleChange(user, e.target.value)}
           value={selectedRoles[user._id] || user.role}
         >
-          <option value="user">Utilisateur authentifié</option>
+          <option value="user">Utilisateur </option>
           <option value="Super-utilisateur">Super utilisateur</option>
           <option value="Moderateur">Moderateur</option>
           <option value="admin">Admin</option>

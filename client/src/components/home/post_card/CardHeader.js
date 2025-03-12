@@ -7,15 +7,68 @@ import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { deletePost } from '../../../redux/actions/postAction';
 import { aprovarPostPendiente } from '../../../redux/actions/postAproveAction';
 import ReportPost from './ReportPost';
+ 
+import { MESS_TYPES  } from '../../../redux/actions/messageAction'
 
 
 const CardHeader = ({ post }) => {
-    const { auth, socket } = useSelector(state => state);
+    
+    const { auth,socket,online, homeUsers: { users } } = useSelector(state => state);
+  
+    const [showReportModal, setShowReportModal] = useState(false);
+    // Obtén el primer administrador disponible
+    const admin = users.find(user => user.role === 'admin');
+
+    const user = post.user; // Obtienes el usuario dueño del post
     const dispatch = useDispatch();
     const history = useHistory();
 
-    // Estado para controlar la visibilidad del modal de reporte
-    const [showReportModal, setShowReportModal] = useState(false);
+    // Función para agregar usuario
+    const handleAddUser = (user) => {
+        // Despacha las acciones de Redux
+        dispatch({ type: MESS_TYPES.ADD_USER, payload: { ...user, text: '', media: [] } });
+        dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
+
+        // Redirige a la página de mensajes
+        history.push(`/message/${user._id}`);
+    };
+
+
+   
+
+    // Función para llamar al administrador
+    const handleCallAdmin = (admin) => {
+        if (!admin || !admin._id) {
+            console.error('Administrador no válido:', admin);
+            alert('No hay administradores disponibles');
+            return;
+        }
+
+        // Verifica si el usuario autenticado está disponible
+        if (!auth.user || !auth.user._id) {
+            console.error('Usuario autenticado no válido:', auth.user);
+            alert('Debes iniciar sesión para contactar al administrador');
+            return;
+        }
+
+        // Lógica para llamar al administrador
+        console.log('Llamando al administrador:', admin.name);
+
+        // Redirigir a una página de chat con el administrador
+        history.push(`/message/${admin._id}`);
+    };
+
+    // Si no hay administradores, muestra un mensaje
+    if (!admin) {
+        return (
+            <div className="dropdown-item">
+                <span className="material-icons">person_add</span> No hay administradores disponibles
+            </div>
+        );
+    }
+
+
+     
 
     const handleAprove = () => {
         const confirmAction = window.confirm("¿Vous voulez aprouve ce post?");
@@ -69,14 +122,14 @@ const CardHeader = ({ post }) => {
 
             {auth.user && (
                 <div className="nav-item dropdown">
-                    <span className="material-icons" data-toggle="dropdown" style={{ display: "flex", marginRight: 0 }}>
+                    <span className="material-icons" data-toggle="dropdown"  >
                         more_horiz
                     </span>
 
                     <div className="dropdown-menu">
                         <>
                             {auth.user.role === "admin" && (
-                                <>
+                                <>  
                                     <div className="dropdown-item" onClick={handleAprove}>
                                         <span className="material-icons">check_circle</span> Approve Post
                                     </div>
@@ -100,7 +153,13 @@ const CardHeader = ({ post }) => {
                                 </>
                             )}
                         </>
+                        <div className="dropdown-item"onClick={() => handleCallAdmin(admin)}>
+                            <span className="material-icons">person_add</span> escribir al administrador
+                        </div>
 
+                        <div className="dropdown-item"onClick={() => handleAddUser(user)}>
+                            <span className="material-icons">person_add</span> escribir al usuario
+                        </div>
                         <div className="dropdown-item">
                             <span className="material-icons">person_add</span> Seguir al autor
                         </div>

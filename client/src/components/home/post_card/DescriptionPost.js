@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 const DescriptionPost = ({ post }) => {
     const { languageReducer } = useSelector(state => state);
     const { t } = useTranslation();
-
+    const [readMore, setReadMore] = useState(false)
     const language = languageReducer.language || "en";
 
     return (
@@ -142,9 +142,28 @@ const DescriptionPost = ({ post }) => {
                     <div className="info-item">
                         <i className="fas fa-comments"></i>
                         <span className="info-label">Description:</span>
-                        <span className="info-value">{post.description}</span>
+                        <span className="info-value">
+                        <div className="card_body-content"  > 
+                            <span>
+                                {
+                                    post.description.length < 60
+                                        ? post.description
+                                        : readMore ? post.description + ' ' : post.description.slice(0, 60) + '.....'
+                                }
+                            </span>
+                            {
+                                post.description.length > 60 &&
+                                <span className="readMore color-red" onClick={() => setReadMore(!readMore)}>
+                                    {readMore ? 'masque lo contenu' : 'Lire plus'}
+                                </span>
+                            }
+                            </div>
+                        </span>
                     </div>
                 )}
+
+
+
 
                 {post.oferta && (
                     <div className="info-item">

@@ -37,6 +37,7 @@ import Home from './pages/home'
 import Reportuser from './pages/administration/users/reportuser';
 import Bloqueos from './pages/bloqueos'
 import { useHistory } from 'react-router-dom';
+import Message from './pages/message';
 
 
 function App() {
@@ -112,6 +113,12 @@ function App() {
           {call && <CallModal />}
 
           <Switch>
+
+
+            <Route exact path="/message/:id" render={(props) => auth.token ? <Message {...props} /> : <Redirect to="/login" />} />
+            <Route exact path="/message" render={() => (auth.token ? <Message /> : <Redirect to="/login" />)} />
+
+
             <Route exact path="/administration/usersaction" render={() => auth.token ? <UsersActionn /> : <Redirect to="/login" />} />
             <Route exact path="/administration/usersedicion" render={() => auth.token ? <Edicionusers /> : <Redirect to="/login" />} />
             <Route exact path="/administration/listadeusuariosbloqueadoss" render={() => auth.token ? <Listadeusuariosbloqueadoss /> : <Redirect to="/login" />} />
