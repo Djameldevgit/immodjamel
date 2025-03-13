@@ -18,7 +18,7 @@ const reportCtrl = {
             // Verificar si el usuario ya reportó este post
             const existingReport = await Reports.findOne({ postId, userId });
             if (existingReport) {
-                return res.status(400).json({ msg: "Ya has reportado este post." });
+                return res.status(400).json({ msg: "Vous avez déjà signalé cette publication." });
             }
 
             // Crear el reporte

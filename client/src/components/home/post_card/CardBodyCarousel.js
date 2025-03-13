@@ -4,10 +4,11 @@ import LikeButton from '../../LikeButton';
 import { useSelector, useDispatch } from 'react-redux';
 import { likePost, unLikePost, savePost, unSavePost } from '../../../redux/actions/postAction';
 import Carousel from '../../Carousel';
-import AuthModal from './CardBodyCarouselAuthModal';
+import AuthModalAddLikesCommentsSave from '../../AuthModalAddLikesCommentsSave'; 
 import CardFooterPost from './CardFooterPost';
 import ShareModal from '../../ShareModal';
 import { BASE_URL } from '../../../utils/config'
+
 const CardBodyCarousel = ({ post }) => {
     const history = useHistory();
     const [isLike, setIsLike] = useState(false);
@@ -141,7 +142,7 @@ const CardBodyCarousel = ({ post }) => {
                 <CardFooterPost post={post} />
             </div>
 
-            <AuthModal
+            <AuthModalAddLikesCommentsSave
                 showModal={showAuthModal}
                 closeModal={closeModal}
                 redirectToLogin={redirectToLogin}

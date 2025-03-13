@@ -91,15 +91,17 @@ img {
 @import url("./usersadministration/filtocomponentes.css");
 @import url("./usersadministration/descripcionpost.css");
 @import url("./usersadministration/usericon.css");
-@import url("./usersadministration/cardbodycarouselmodalauteticacion.css");
+@import url("./usersadministration/AuthModalAddLikesCommnetSave.css");
 @import url("./usersadministration/informationuserpost.css");
 @import url("./usersadministration/cardfootercommenttiempomodal.css");
 @import url("./usersadministration/homemodalsearch.css");
 @import url("./usersadministration/paginabooqueo.css");
-@import url("./usersadministration/reportPostCadheader.css");
+@import url("./usersadministration/cardheadermodalreportpost.css");
 @import url("./usersadministration/cardheaderpost.css");
 @import url("./usersadministration/tablereportes.css");
 @import url("./usersadministration/infoaplicacion.css");
+@import url("./usersadministration/navbarlinks.css");
+
 /* --------- Responsive ------ */
 @media (max-width: 766px){
   .header .navbar .logo{

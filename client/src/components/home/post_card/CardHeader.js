@@ -6,9 +6,9 @@ import moment from 'moment';
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { deletePost } from '../../../redux/actions/postAction';
 import { aprovarPostPendiente } from '../../../redux/actions/postAproveAction';
-import ReportPost from './ReportPost';
-
+ 
 import { MESS_TYPES } from '../../../redux/actions/messageAction'
+import Cardheadermodalreportpost from './Cardheadermodalreportpost';
 
 
 const CardHeader = ({ post }) => {
@@ -38,11 +38,7 @@ const CardHeader = ({ post }) => {
 
     // Función para llamar al administrador
     const handleCallAdmin = (admin) => {
-        if (!admin || !admin._id) {
-            console.error('Administrador no válido:', admin);
-            alert('No hay administradores disponibles');
-            return;
-        }
+       
 
         // Verifica si el usuario autenticado está disponible
         if (!auth.user || !auth.user._id) {
@@ -58,15 +54,7 @@ const CardHeader = ({ post }) => {
         history.push(`/message/${admin._id}`);
     };
 
-    // Si no hay administradores, muestra un mensaje
-    if (!admin) {
-        return (
-            <div className="dropdown-item">
-                <span className="material-icons">person_add</span> No hay administradores disponibles
-            </div>
-        );
-    }
-
+  
 
 
 
@@ -101,10 +89,12 @@ const CardHeader = ({ post }) => {
         }
     };
 
+     
     return (
         <div className="cardheaderpost">
 
-            {auth.user?.role === "superuser" && (
+
+{auth.user?.role === "superuser" && (
                 <div className="d-flex">
                     <Avatar src={post.user.avatar} size="big-avatar" />
                     <div className="card_name">
@@ -120,75 +110,61 @@ const CardHeader = ({ post }) => {
                 </div>
             )}
 
+
+
+
+
+
             {auth.user && (
                 <div className="nav-item dropdown">
-                <span className="material-icons" data-toggle="dropdown">
-                    more_horiz
-                </span>
-        
-                <div className="dropdown-menu">
-                    <>
+                    <span className="material-icons dropdown-toggle" data-toggle="dropdown">
+                        more_horiz
+                    </span>
+
+                    <div className="dropdown-menu">
                         {auth.user.role === "admin" && (
                             <>
-                                <div className="dropdown-item" onClick={handleAprove}>
-                                    <span className="material-icons">check_circle</span> Approuver le post
-                                </div>
-        
-                                <div className="dropdown-item" onClick={handleEditPost}>
-                                    <span className="material-icons">create</span> Modifier le post
-                                </div>
-        
-                                <div className="dropdown-item" onClick={handleDeletePost}>
-                                    <span className="material-icons">delete_outline</span> Supprimer le post
-                                </div>
+                                <DropdownItem icon="check_circle" text="Approuver le post" onClick={handleAprove} />
+                                <DropdownItem icon="create" text="Modifier le post" onClick={handleEditPost} />
+                                <DropdownItem icon="delete_outline" text="Supprimer le post" onClick={handleDeletePost} />
                             </>
                         )}
-        
+
                         {auth.user._id === post.user._id && (
                             <>
-                                <div className="dropdown-item" onClick={handleEditPost}>
-                                    <span className="material-icons">create</span> Modifier le post
-                                </div>
-        
-                                <div className="dropdown-item" onClick={handleDeletePost}>
-                                    <span className="material-icons">delete_outline</span> Supprimer le post
-                                </div>
+                                <DropdownItem icon="create" text="Modifier le post" onClick={handleEditPost} />
+                                <DropdownItem icon="delete_outline" text="Supprimer le post" onClick={handleDeletePost} />
                             </>
                         )}
-                    </>
-                    <div className="dropdown-item" onClick={() => handleCallAdmin(admin)}>
-                        <span className="material-icons">person_add</span> Écrire à l'administrateur
-                    </div>
-        
-                    <div className="dropdown-item" onClick={() => handleAddUser(user)}>
-                        <span className="material-icons">person_add</span> Écrire à l'utilisateur
-                    </div>
-        
-                    <div className="dropdown-item">
-                        <span className="material-icons">person_add</span> Suivre l'auteur
-                    </div>
-        
-                    <div className="dropdown-item" onClick={() => setShowReportModal(true)}>
-                        <span className="material-icons">report</span> Signaler le post
-                    </div>
-        
-                    <div className="dropdown-item">
-                        <span className="material-icons">bookmark</span> Sauvegarder le post
+
+                        <DropdownItem icon="person_add" text="Écrire à l'administrateur" onClick={() => handleCallAdmin(admin)} />
+                        <DropdownItem icon="person_add" text="Écrire à l'auteur du post" onClick={() => handleAddUser(user)} />
+                        <DropdownItem icon="person_add" text="Suivre l'auteur" />
+                        <DropdownItem icon="report" text="Signaler le post" onClick={() => setShowReportModal(true)} />
+                        <DropdownItem icon="bookmark" text="Sauvegarder le post" />
                     </div>
                 </div>
-            </div>
             )}
 
             {showReportModal && (
-                <ReportPost
-                    post={post}
-                    auth={auth}
-                    onClose={() => setShowReportModal(false)}
-                    onReport={handleReportPost}
-                />
+                <div className="modal-overlay">
+                    <Cardheadermodalreportpost
+                        post={post}
+                        auth={auth}
+                        onClose={() => setShowReportModal(false)}
+                        onReport={handleReportPost}
+                    />
+                </div>
             )}
         </div>
     );
 };
+
+const DropdownItem = ({ icon, text, onClick }) => (
+    <div className="dropdown-item" onClick={onClick}>
+        <span className="material-icons">{icon}</span>
+        <span>{text}</span>
+    </div>
+);
 
 export default CardHeader;

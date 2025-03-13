@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { createReport } from '../../../redux/actions/reportUserAction';
  
-const ReportPost = ({ post, onClose }) => {
+const Cardheadermodalreportpost = ({ post, onClose }) => {
     const { auth } = useSelector(state => state);
     const dispatch = useDispatch();
     const [reportReason, setReportReason] = useState("");
@@ -16,7 +16,7 @@ const ReportPost = ({ post, onClose }) => {
         // Datos del reporte
         const reportData = {
             postId: post._id,
-            userId : auth.user._id,
+            userId: auth.user._id,
             reason: reportReason,
         };
 
@@ -28,14 +28,14 @@ const ReportPost = ({ post, onClose }) => {
     };
 
     return (
-        <div className="modal-backdrop">
+        <div className="modalbackdrop">
             <div className="modalcontentreport">
                 {/* Botón de cierre */}
-                <button className="modal-close" onClick={onClose}>
+                <button className="modalclose" onClick={onClose}>
                     &times; {/* Símbolo de "X" */}
                 </button>
 
-                <h3>Signaler le post</h3>
+                <h3 className='ml-1'>Signaler le post</h3>
                 <select
                     className="form-control-bloquar"
                     value={reportReason}
@@ -55,7 +55,7 @@ const ReportPost = ({ post, onClose }) => {
                     <option value="Activité suspecte">Activité suspecte</option>
                     <option value="Autre">Autre</option>
                 </select>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+                <div className="button-container">
                     <button
                         onClick={handleSubmit}
                         className="primary"
@@ -74,4 +74,4 @@ const ReportPost = ({ post, onClose }) => {
     );
 };
 
-export default ReportPost;
+export default Cardheadermodalreportpost;
