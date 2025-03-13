@@ -277,15 +277,15 @@ const RightSide = () => {
                 <Icons setContent={setText} content={text} theme={theme} />
 
 
-                {(auth.user.role === "superuser" || auth.user.role === "admin") && (
-                    <div>
-                        <div className="file_upload">
-                            <i className="fas fa-image text-danger" />
-                            <input type="file" name="file" id="file"
-                                multiple accept="image/*,video/*" onChange={handleChangeMedia} />
-                        </div>
+                { /*{(auth.user.role === "superuser" || auth.user.role === "admin") && (*/}
+                <div>
+                    <div className="file_upload">
+                        <i className="fas fa-image text-danger" />
+                        <input type="file" name="file" id="file"
+                            multiple accept="image/*,video/*" onChange={handleChangeMedia} />
                     </div>
-                )}
+                </div>
+                {/*)}*/}
 
 
 
