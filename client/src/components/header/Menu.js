@@ -9,7 +9,7 @@ import LanguageSelector from '../LanguageSelector';
 import Modalsearchhome from '../Modalsearchhome';
 import AuthModalAddLikesCommentsSave from '../AuthModalAddLikesCommentsSave';
 
-const Menu = () => {
+const Menu = ({resetFilters}) => {
     const dispatch = useDispatch();
     const { auth, theme, notify } = useSelector(state => state); // Obtén el estado de autenticación, tema y notificaciones
     const history = useHistory(); // Para redireccionar al usuario
@@ -19,9 +19,9 @@ const Menu = () => {
     const [isModalOpen, setIsModalOpen] = useState(false); // Para el modal de búsqueda
     const [showAuthModal, setShowAuthModal] = useState(false); // Para el modal de autenticación
 
-    const handleFilterChange = (e) => {
-        const { name, value } = e.target;
-        setFilters({ ...filters, [name]: value });
+    // Definir las funciones antes de usarlas
+    const openSearchModal = () => {
+        setIsModalOpen(true);
     };
 
     const handleDiscoverClick = () => {
@@ -34,6 +34,21 @@ const Menu = () => {
         }
     };
 
+    const navLinks = [
+        { label: 'Home', icon: 'home', path: '/', onClick: resetFilters },
+        { label: 'Search', icon: 'search', path: '#', onClick: openSearchModal }, // Función para abrir el modal de búsqueda
+        { label: 'Discover', icon: 'fas fa-plus', onClick: handleDiscoverClick } // Función para ejecutar el dispatch
+    ];
+
+    const isActive = (pn) => {
+        if (pn === pathname) return 'active';
+    };
+
+    const handleFilterChange = (e) => {
+        const { name, value } = e.target;
+        setFilters({ ...filters, [name]: value });
+    };
+
     const redirectToLogin = () => {
         history.push('/login'); // Redirige al usuario a la página de inicio de sesión
         setShowAuthModal(false); // Cierra el modal
@@ -44,22 +59,8 @@ const Menu = () => {
         setShowAuthModal(false); // Cierra el modal
     };
 
-    const openSearchModal = () => {
-        setIsModalOpen(true);
-    };
-
     const closeSearchModal = () => {
         setIsModalOpen(false);
-    };
-
-    const navLinks = [
-        { label: 'Home', icon: 'home', path: '/' },
-        { label: 'Search', icon: 'search', path: '#', onClick: openSearchModal }, // Función para abrir el modal de búsqueda
-        { label: 'Discover', icon: 'fas fa-plus', onClick: handleDiscoverClick } // Función para ejecutar el dispatch
-    ];
-
-    const isActive = (pn) => {
-        if (pn === pathname) return 'active';
     };
 
     return (
@@ -71,8 +72,9 @@ const Menu = () => {
                             className="nav-link"
                             to={link.path || '#'}
                             onClick={(e) => {
-                                e.preventDefault();
+                                // Solo prevenir la navegación si hay una función onClick
                                 if (link.onClick) {
+                                    e.preventDefault();
                                     link.onClick();
                                 }
                             }}

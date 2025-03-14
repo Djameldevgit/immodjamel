@@ -12,7 +12,7 @@ const MsgDisplay = ({user, msg, theme, data}) => {
     const handleDeleteMessages = () => {
         if(!data) return;
         
-        if(window.confirm('Voulez-vous supprimer?')){
+        if(window.confirm('Vous voulez suprimer?')){
             dispatch(deleteMessages({msg, data, auth}))
         }
     }

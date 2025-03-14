@@ -62,7 +62,7 @@ const CardHeader = ({ post }) => {
         const confirmAction = window.confirm("¿Vous voulez aprouve ce post?");
         if (confirmAction) {
             dispatch(aprovarPostPendiente(post, 'aprovado', auth));
-            return history.push("#");
+            return history.push("/administration/homepostspendientes");
         }
     };
 
