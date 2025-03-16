@@ -7,22 +7,18 @@ import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { deletePost } from '../../../redux/actions/postAction';
 import { aprovarPostPendiente } from '../../../redux/actions/postAproveAction';
 import Cardheadermodalreportpost from './Cardheadermodalreportpost';
- 
+
 const CardHeader = ({ post }) => {
-    const { auth, socket } = useSelector(state => state);
+    const { auth, socket, homeUsers } = useSelector(state => state);
     const [showReportModal, setShowReportModal] = useState(false);
 
     const dispatch = useDispatch();
     const history = useHistory();
 
-    // Función para iniciar un chat con el dueño del post
-    const handleChatWithOwner = () => {
-      
 
-            // Redirige a la página de chat con el dueño del post
-            history.push('/message');
-    }
-      
+
+
+
     const handleAprove = () => {
         if (window.confirm("¿Vous voulez aprouve ce post?")) {
             dispatch(aprovarPostPendiente(post, 'aprovado', auth));
@@ -89,19 +85,9 @@ const CardHeader = ({ post }) => {
                             </>
                         )}
 
-                        {/* Botón para chatear con el dueño del post */}
-                        <DropdownItem
-                            icon="chat"
-                            text="Chat with Post Owner"
-                            onClick={handleChatWithOwner}
-                        />
-
-                        {/* Botón para chatear con un administrador (opcional) */}
-                        {/* <DropdownItem
-                            icon="chat"
-                            text="Chat with Admin"
-                            onClick={handleChatWithAdmin}
-                        /> */}
+                        {/* <DropdownItem icon="chat" text="Chat with Post Owner" onClick={handleChatWithOwner} />
+                        <DropdownItem icon="chat" text="Chat with Admin" onClick={handleChatWithAdmin} />
+ Botones para chatear con el dueño del post y con un administrador */}
 
                         <DropdownItem icon="person_add" text="Suivre l'auteur" />
                         <DropdownItem icon="report" text="Signaler le post" onClick={() => setShowReportModal(true)} />

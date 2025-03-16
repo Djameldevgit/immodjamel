@@ -1,11 +1,10 @@
 import React from 'react'
 import Avatar from '../Avatar'
- 
+import { imageShow, videoShow } from '../../utils/mediaShow'
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteMessages } from '../../redux/actions/messageAction'
 import Times from './Times'
-import { imageShow, videoShow} from '../../utils/mediaShow'
- 
+
 const MsgDisplay = ({user, msg, theme, data}) => {
     const { auth } = useSelector(state => state)
     const dispatch = useDispatch()
