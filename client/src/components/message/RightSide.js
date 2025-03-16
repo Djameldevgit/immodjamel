@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import UserCardChat from '../UserCardChat'
+import UserCard from '../UserCard'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams, useHistory } from 'react-router-dom'
 import MsgDisplay from './MsgDisplay'
@@ -11,7 +11,7 @@ import { addMessage, getMessages, loadMoreMessages, deleteConversation } from '.
 import LoadIcon from '../../images/loading.gif'
 
 const RightSide = () => {
-    const { auth, message, theme, socket  } = useSelector(state => state)
+    const { auth, message, theme, socket, peer } = useSelector(state => state)
     const dispatch = useDispatch()
 
     const { id } = useParams()
@@ -137,14 +137,14 @@ const RightSide = () => {
     },[isLoadMore])
 
     const handleDeleteConversation = () => {
-        if(window.confirm('vous voulez souprimer le message?')){
+        if(window.confirm('Do you want to delete?')){
             dispatch(deleteConversation({auth, id}))
             return history.push('/message')
         }
     }
 
     // Call
-  /*  const caller = ({video}) => {
+    const caller = ({video}) => {
         const { _id, avatar, username, fullname } = user
 
         const msg = {
@@ -177,20 +177,25 @@ const RightSide = () => {
     const handleVideoCall = () => {
         caller({video: true})
         callUser({video: true})
-    }*/
+    }
 
     return (
         <>
             <div className="message_header" style={{cursor: 'pointer'}} >
                 {
                     user.length !== 0 &&
-                    <UserCardChat user={user}>
+                    <UserCard user={user}>
                         <div>
-                          
+                            <i className="fas fa-phone-alt"
+                            onClick={handleAudioCall} />
+
+                            <i className="fas fa-video mx-3"
+                            onClick={handleVideoCall} />
+
                             <i className="fas fa-trash text-danger"
                             onClick={handleDeleteConversation} />
                         </div>
-                    </UserCardChat>
+                    </UserCard>
                 }
             </div>
 
@@ -198,7 +203,7 @@ const RightSide = () => {
             style={{height: media.length > 0 ? 'calc(100% - 180px)' : ''}} >
                 <div className="chat_display" ref={refDisplay}>
                     <button style={{marginTop: '-25px', opacity: 0}} ref={pageEnd}>
-                        Lire plus
+                        Load more
                     </button>
 
                     {
@@ -248,7 +253,7 @@ const RightSide = () => {
             </div>
 
             <form className="chat_input" onSubmit={handleSubmit} >
-                <input type="text" placeholder="Entre votre message..."
+                <input type="text" placeholder="Enter you message..."
                 value={text} onChange={e => setText(e.target.value)}
                 style={{
                     filter: theme ? 'invert(1)' : 'invert(0)',

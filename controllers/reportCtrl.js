@@ -1,86 +1,115 @@
-const Reports = require('../models/reportModel');
-const Posts = require('../models/postModel');
-const Users = require('../models/userModel');
+
+const Posts = require('../models/postModel')
+const Report = require('../models/reportModel')
+const Users = require('../models/userModel')
 
 const reportCtrl = {
-    // 🟢 Crear un reporte
-    createReport: async (req, res) => {
-        try {
-            const { postId, reason } = req.body;
-            const userId = req.user._id; // ID del usuario que reporta (obtenido del token)
+ 
+  
+  createReport: async (req, res) => {
+    try {
+      const { postId, userId, reason } = req.body;
+      const reportedBy = req.user._id; // Usuario que hace el reporte
 
-            // Verificar si el post existe
-            const post = await Posts.findById(postId);
-            if (!post) {
-                return res.status(404).json({ msg: "El post no fue encontrado." });
-            }
+      if (!postId || !userId || !reason) {
+        return res.status(400).json({ msg: "Todos los campos son obligatorios." });
+      }
 
-            // Verificar si el usuario ya reportó este post
-            const existingReport = await Reports.findOne({ postId, userId });
-            if (existingReport) {
-                return res.status(400).json({ msg: "Vous avez déjà signalé cette publication." });
-            }
+      const newReport = new Report({
+        postId,
+        userId, // Usuario reportado
+        reportedBy, // Usuario que reportó
+        reason,
+      });
 
-            // Crear el reporte
-            const newReport = new Reports({
-                postId,
-                userId,
-                reason,
-            });
+      await newReport.save();
+      res.json({ msg: "Reporte creado correctamente." });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 
-            // Guardar el reporte en la base de datos
-            await newReport.save();
-          
-            res.status(201).json({
-                
-                msg: "Merci port votre reporte.",
-                report: newReport,
-            });
-        } catch (err) {
-            console.error("Error al crear el reporte:", err);
-            res.status(500).json({ error: "Error al crear el reporte." });
-        }
-    },
+  getReports: async (req, res) => {
+    try {
+      const reports = await Report.find()
+        .populate("reportedBy", "username avatar")
+        .populate("userId", "username avatar")
+        .populate("postId", "title content") // Asegurar que traiga estos campos
+        .exec();
 
-    // 🟢 Obtener todos los reportes
-    getReports: async (req, res) => {
-        try {
-            const reports = await Reports.find()
-                .populate('postId', 'content') // Populate para obtener detalles del post
-                .populate('userId', 'username avatar'); // Populate para obtener detalles del usuario
+      res.json({ reports, result: reports.length });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 
-            res.status(200).json({
-                success: true,
-                reports,
-            });
-        } catch (err) {
-            console.error("Error al obtener los reportes:", err);
-            res.status(500).json({ error: "Error al obtener los reportes." });
-        }
-    },
+  // Obtener los usuarios más reportados
+  getMostReportedUsers: async (req, res) => {
+    try {
+      const mostReportedUsers = await Report.aggregate([
+        { $group: { _id: "$userId", count: { $sum: 1 } } }, // Cuenta reportes por usuario
+        { $sort: { count: -1 } }, // Ordena por mayor número de reportes
+        { $limit: 10 }, // Opcional: obtener los 10 más reportados
+        {
+          $lookup: {
+            from: "users",
+            localField: "_id",
+            foreignField: "_id",
+            as: "user",
+          },
+        }, // Trae datos del usuario
+        { $unwind: "$user" }, // Convierte el array en objeto
+        {
+          $project: {
+            _id: 1,
+            count: 1,
+            "user.username": 1,
+            "user.avatar": 1,
+          },
+        }, // Devuelve solo lo necesario
+      ]);
 
-    // 🟢 Eliminar un reporte
-    deleteReport: async (req, res) => {
-        try {
-            const { id } = req.params; // ID del reporte a eliminar
+      res.json({ mostReportedUsers });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 
-            // Buscar y eliminar el reporte
-            const deletedReport = await Reports.findByIdAndDelete(id);
+  // Obtener los usuarios que más reportes han hecho
+  getMostActiveReporters: async (req, res) => {
+    try {
+      const mostActiveReporters = await Report.aggregate([
+        { $group: { _id: "$reportedBy", count: { $sum: 1 } } }, // Cuenta reportes hechos por cada usuario
+        { $sort: { count: -1 } }, // Ordena por cantidad de reportes hechos
+        { $limit: 10 }, // Opcional: obtener los 10 más activos
+        {
+          $lookup: {
+            from: "users",
+            localField: "_id",
+            foreignField: "_id",
+            as: "user",
+          },
+        }, // Obtiene datos del usuario
+        { $unwind: "$user" }, // Convierte el array en objeto
+        {
+          $project: {
+            _id: 1,
+            count: 1,
+            "user.username": 1,
+            "user.avatar": 1,
+          },
+        }, // Devuelve solo lo necesario
+      ]);
 
-            if (!deletedReport) {
-                return res.status(404).json({ msg: "Reporte no encontrado." });
-            }
-
-            res.status(200).json({
-                success: true,
-                message: "Reporte eliminado correctamente.",
-                report: deletedReport,
-            });
-        } catch (err) {
-            console.error("Error al eliminar el reporte:", err);
-            res.status(500).json({ error: "Error al eliminar el reporte." });
-        }
-    },
+      res.json({ mostActiveReporters });
+    } catch (err) {
+      return res.status(500).json({ msg: err.message });
+    }
+  },
 };
 
 module.exports = reportCtrl;
+
+    
+ 
+ 

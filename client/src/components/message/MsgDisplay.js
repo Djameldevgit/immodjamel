@@ -1,10 +1,11 @@
 import React from 'react'
 import Avatar from '../Avatar'
-import { imageShow, videoShow } from '../../utils/mediaShow'
+ 
 import { useSelector, useDispatch } from 'react-redux'
 import { deleteMessages } from '../../redux/actions/messageAction'
 import Times from './Times'
-
+import { imageShow, videoShow} from '../../utils/mediaShow'
+ 
 const MsgDisplay = ({user, msg, theme, data}) => {
     const { auth } = useSelector(state => state)
     const dispatch = useDispatch()
@@ -12,7 +13,7 @@ const MsgDisplay = ({user, msg, theme, data}) => {
     const handleDeleteMessages = () => {
         if(!data) return;
         
-        if(window.confirm('Vous voulez suprimer?')){
+        if(window.confirm('Do you want to delete?')){
             dispatch(deleteMessages({msg, data, auth}))
         }
     }

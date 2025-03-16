@@ -42,11 +42,25 @@ import InfoAplicacion from './components/InfoAplicacion';
 
 
 function App() {
-  const { auth, status, modal, call, userBlockReducer } = useSelector(state => state); //, userBlockReducer }
+  const { auth, status, modal, call,languageReducer, userBlockReducer } = useSelector(state => state); //, userBlockReducer }
 
   const dispatch = useDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const history = useHistory()
+
+  const language = languageReducer?.language || localStorage.getItem("lang") || "en";
+
+  useEffect(() => {
+      // Verificar si existe
+    if (language === "ar") {
+      document.body.classList.add("rtl");
+    } else {
+      document.body.classList.remove("rtl");
+    }
+  }, [language]); // Ahora depende de `language`, que siempre tiene un valor
+
+
+
   useEffect(() => {
     if (auth.token && !isLoggedIn) {
       setIsLoggedIn(true); // Marcar que el usuario acaba de iniciar sesión

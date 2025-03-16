@@ -5,12 +5,13 @@ import LoadIcon from '../images/loading.gif';
 import WilayaCommune from '../components/WilayaCommune';
 import Modalsearchhome from './../components/Modalsearchhome';
 import { useHistory } from 'react-router-dom';
- 
+import { useTranslation } from 'react-i18next';
  
 //import { useHistory } from 'react-router-dom';
 const Home = () => {
-    const { homePosts,auth  , userBlockReducer} = useSelector(state => state);
- 
+    const { homePosts,auth, languageReducer , userBlockReducer} = useSelector(state => state);
+   
+    const { t } = useTranslation();
     
     const history = useHistory();  // ✅ Usamos history aquí
  
@@ -77,7 +78,7 @@ const Home = () => {
     <button onClick={openModal} style={styles.searchButton} className = 'mt-2'>
         <span style={styles.searchIcon}>
             <i className='fas fa-search' ></i> 
-            <span className='ml-3 '>Recherche Immobilier</span>
+            <span className='ml-3 '>  {t('Advanced search', { lng: languageReducer.language })}</span>
         </span>
        
     </button>

@@ -27,12 +27,13 @@ const userSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     lastLogin: { type: Date, default: null },
     post: [{ type: mongoose.Types.ObjectId, ref: 'post' }],
+    report: [{ type: mongoose.Types.ObjectId, ref: 'report' }],
     
     likesGiven: { type: Number, default: 0 },
     likesReceived: { type: Number, default: 0 },
     commentsMade: { type: Number, default: 0 },
     commentsReceived: { type: Number, default: 0 },
-
+    
     esBloqueado: { type: Boolean, default: false },
 
 }, { timestamps: true })

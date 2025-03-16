@@ -16,9 +16,11 @@ const Cardheadermodalreportpost = ({ post, onClose }) => {
         // Datos del reporte
         const reportData = {
             postId: post._id,
-            userId: auth.user._id,
+            userId: post.user._id,  // Usuario al que pertenece el post
+            reportedBy: auth.user._id,  // Usuario que realiza el reporte
             reason: reportReason,
         };
+        
 
         // Llama a la acción para crear el reporte
         dispatch(createReport({ auth, reportData }));

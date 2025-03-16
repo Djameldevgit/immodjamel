@@ -1,0 +1,120 @@
+
+import React, { useState, useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
+import { getConversations } from "../../redux/actions/messageAction";
+import { MESS_TYPES } from "../../redux/actions/messageAction";
+import UserCardChat from "../UserCardChat";
+
+const LeftSide = ({ post }) => {
+    const { auth, message, homeUsers, online } = useSelector((state) => state);
+    console.log("Usuarios en homeUsers:", homeUsers);
+
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const { id } = useParams();
+    const pageEnd = useRef();
+    const [page, setPage] = useState(0);
+
+    // Encuentra el usuario dueño del post
+    const postUser = post?.user;
+
+    // Encuentra al administrador
+    const adminUser = Array.isArray(homeUsers.users) ? homeUsers.users.find(user => user.role.toLowerCase() === "admin") : null;
+
+    console.log("Admin encontrado:", adminUser || "No encontrado");
+
+    const handleAddUser = (user) => {
+        if (!user || !user._id) return alert("Error: Usuario inválido.");
+    
+        console.log("ID del usuario seleccionado:", user._id);
+        
+        // Verificar si el usuario ya está en Redux
+        const exists = message.users.some(u => u._id === user._id);
+        if (!exists) {
+            dispatch({ type: MESS_TYPES.ADD_USER, payload: { ...user, text: '', media: [] } });
+        }
+    
+        dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
+        history.push(`/message/${user._id}`);
+    };
+    
+
+    const isActive = (user) => (id === user._id ? "active" : "");
+
+    useEffect(() => {
+        if (!message.firstLoad) {
+            dispatch(getConversations({ auth }));
+        }
+    }, [dispatch, auth, message.firstLoad]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    setPage((p) => p + 1);
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        if (pageEnd.current) {
+            observer.observe(pageEnd.current);
+        }
+
+        return () => observer.disconnect();
+    }, [setPage]);
+
+    useEffect(() => {
+        if (message.resultUsers >= (page - 1) * 9 && page > 1) {
+            dispatch(getConversations({ auth, page }));
+        }
+    }, [message.resultUsers, page, auth, dispatch]);
+
+    useEffect(() => {
+        if (message.firstLoad) {
+            dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
+        }
+    }, [online, message.firstLoad, dispatch]);
+
+    return (
+        <>
+            {/* Contactar con el dueño del post */}
+            {postUser && (
+                <div
+                    key={postUser._id}
+                    className={`message_user ${isActive(postUser)}`}
+                    onClick={() => handleAddUser(postUser)}
+                    style={{ display: "flex", alignItems: "center", gap: "4px", cursor: "pointer", marginLeft: "20px" }}
+                >
+                    <i className="fas fa-user" style={{ fontSize: "14px", color: "#555" }}></i>
+                    <span>Contactar Dueño</span>
+                    <UserCardChat user={postUser} msg={true} />
+                    {postUser.online ? (
+                        <i className="fas fa-circle text-success" />
+                    ) : (
+                        auth.user.following.find((item) => item._id === postUser._id) && (
+                            <i className="fas fa-circle" />
+                        )
+                    )}
+                </div>
+            )}
+
+            {/* Contactar con el administrador */}
+            {adminUser && (
+                <div
+                    key={adminUser._id}
+                    className={`message_user ${isActive(adminUser)}`}
+                    onClick={() => handleAddUser(adminUser)}
+                    style={{ display: "flex", alignItems: "center", gap: "4px", cursor: "pointer", marginLeft: "20px" }}
+                >
+                    <i className="fas fa-user-shield" style={{ fontSize: "14px", color: "red" }}></i>
+                    <span>Contactar Administrador</span>
+                    <UserCardChat user={adminUser} msg={true} />
+                </div>
+            )}
+        </>
+    );
+};
+
+export default LeftSide;

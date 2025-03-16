@@ -1,12 +1,15 @@
 import { REPORT_TYPES } from "../actions/reportUserAction";
 
- 
-const initialState = {
-    loading: false,
-    reports: [],
-    result: 0,
-    page: 2
 
+const initialState = {
+    reports: [],
+    mostReportedUsers: [],
+    mostActiveReporters: [],
+    loading: false,
+    error: null,
+    result: 0,
+    page: 2,
+    
 };
 
 const reportReducer = (state = initialState, action) => {
@@ -22,13 +25,19 @@ const reportReducer = (state = initialState, action) => {
                 reports: [action.payload, ...state.reports], // Agrega el nuevo reporte al inicio
             };
         case REPORT_TYPES.GET_REPORTS:
+            console.log("Reportes recibidos:", action.payload.reports); // Debug
             return {
                 ...state,
-             
                 reports: action.payload.reports,
                 result: action.payload.result,
-                page: action.payload.page // Guarda la lista de reportes
+                page: action.payload.page
             };
+        case REPORT_TYPES.GET_MOST_REPORTED_USERS:
+            return { ...state, mostReportedUsers: action.payload };
+
+        case REPORT_TYPES.GET_MOST_ACTIVE_REPORTERS:
+            return { ...state, mostActiveReporters: action.payload };
+
         default:
             return state;
     }

@@ -6,63 +6,36 @@ import moment from 'moment';
 import { GLOBALTYPES } from '../../../redux/actions/globalTypes';
 import { deletePost } from '../../../redux/actions/postAction';
 import { aprovarPostPendiente } from '../../../redux/actions/postAproveAction';
- 
-import { MESS_TYPES } from '../../../redux/actions/messageAction'
 import Cardheadermodalreportpost from './Cardheadermodalreportpost';
-
-
+ 
 const CardHeader = ({ post }) => {
-
-    const { auth, socket, online, homeUsers: { users } } = useSelector(state => state);
-
+    const { auth, socket,homeUsers } = useSelector(state => state);
     const [showReportModal, setShowReportModal] = useState(false);
-    // Obtén el primer administrador disponible
-    const admin = users.find(user => user.role === 'admin');
 
-    const user = post.user; // Obtienes el usuario dueño del post
     const dispatch = useDispatch();
     const history = useHistory();
 
-    // Función para agregar usuario
-    const handleAddUser = (user) => {
-        // Despacha las acciones de Redux
-        dispatch({ type: MESS_TYPES.ADD_USER, payload: { ...user, text: '', media: [] } });
-        dispatch({ type: MESS_TYPES.CHECK_ONLINE_OFFLINE, payload: online });
-
-        // Redirige a la página de mensajes
-        history.push(`/message/${user._id}`);
+    
+    const handleChatWithOwner = () => {
+        history.push(`/message/${post.user._id}`);
     };
 
-
-
-
-    // Función para llamar al administrador
-    const handleCallAdmin = (admin) => {
-       
-
-        // Verifica si el usuario autenticado está disponible
-        if (!auth.user || !auth.user._id) {
-            console.error('Usuario autenticado no válido:', auth.user);
-            alert('Debes iniciar sesión para contactar al administrador');
-            return;
+    const handleChatWithAdmin = () => {
+        // Buscar el primer usuario con el rol de "admin"
+        const admin = homeUsers.users.find(user => user.role === "admin");
+        if (admin) {
+            history.push(`/message/${admin._id}`);
+        } else {
+            alert("No se encontró un administrador disponible.");
         }
-
-        // Lógica para llamar al administrador
-        console.log('Llamando al administrador:', admin.name);
-
-        // Redirigir a una página de chat con el administrador
-        history.push(`/message/${admin._id}`);
     };
 
-  
-
-
+ 
 
     const handleAprove = () => {
-        const confirmAction = window.confirm("¿Vous voulez aprouve ce post?");
-        if (confirmAction) {
+        if (window.confirm("¿Vous voulez aprouve ce post?")) {
             dispatch(aprovarPostPendiente(post, 'aprovado', auth));
-            return history.push("/administration/homepostspendientes");
+            history.push("/administration/homepostspendientes");
         }
     };
 
@@ -73,14 +46,12 @@ const CardHeader = ({ post }) => {
     const handleDeletePost = () => {
         if (window.confirm("Are you sure want to delete this post?")) {
             dispatch(deletePost({ post, auth, socket }));
-            return history.push("/");
+            history.push("/");
         }
     };
 
-    // Función para manejar el reporte del post
     const handleReportPost = async (reportData) => {
         try {
-            // Aquí puedes enviar la solicitud al backend para guardar el reporte
             console.log("Reporte enviado:", reportData);
             alert("Post reportado correctamente.");
         } catch (error) {
@@ -89,12 +60,9 @@ const CardHeader = ({ post }) => {
         }
     };
 
-     
     return (
         <div className="cardheaderpost">
-
-
-{auth.user?.role === "superuser" && (
+            {auth.user?.role === "superuser" && (
                 <div className="d-flex">
                     <Avatar src={post.user.avatar} size="big-avatar" />
                     <div className="card_name">
@@ -103,17 +71,10 @@ const CardHeader = ({ post }) => {
                                 {post.user.username}
                             </Link>
                         </h6>
-                        <small className="text-muted">
-                            {moment(post.createdAt).fromNow()}
-                        </small>
+                        <small className="text-muted">{moment(post.createdAt).fromNow()}</small>
                     </div>
                 </div>
             )}
-
-
-
-
-
 
             {auth.user && (
                 <div className="nav-item dropdown">
@@ -137,8 +98,10 @@ const CardHeader = ({ post }) => {
                             </>
                         )}
 
-                        <DropdownItem icon="person_add" text="Écrire à l'administrateur" onClick={() => handleCallAdmin(admin)} />
-                        <DropdownItem icon="person_add" text="Écrire à l'auteur du post" onClick={() => handleAddUser(user)} />
+                        {/* Botones para chatear con el dueño del post y con un administrador */}
+                        <DropdownItem icon="chat" text="Chat with Post Owner" onClick={handleChatWithOwner} />
+                        <DropdownItem icon="chat" text="Chat with Admin" onClick={handleChatWithAdmin} />
+
                         <DropdownItem icon="person_add" text="Suivre l'auteur" />
                         <DropdownItem icon="report" text="Signaler le post" onClick={() => setShowReportModal(true)} />
                         <DropdownItem icon="bookmark" text="Sauvegarder le post" />

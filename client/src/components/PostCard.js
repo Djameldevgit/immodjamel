@@ -12,17 +12,18 @@ import DescriptionPost from './home/post_card/DescriptionPost'
 import InformationUserPost from './home/post_card/InformationUserPost'
 import { useSelector } from 'react-redux';
  
-//import CardFooterCommenttiempomodal from './home/post_card/CardFooterCommenttiempomodal'
-
 const PostCard = ({ post, theme }) => {
     const location = useLocation();
     const isPostDetailPage = location.pathname === `/post/${post._id}`;
     const { auth } = useSelector(state => state); // 🔹 Obtiene la autenticación desde Redux
 
     const isAuthenticated = auth.token ? true : false; // 🔹 Verifica si el usuario está autenticado
-
+  
     return (
         <div className="card my-3">
+
+ 
+               
             <CardHeader post={post} />
             <CardBodyTitle post={post} />
             <CardBodyCarousel post={post} theme={theme} />

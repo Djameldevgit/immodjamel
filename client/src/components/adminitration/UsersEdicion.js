@@ -117,7 +117,7 @@ const UsersEdicion = () => {
         )}
       </td>
       <td>{user.reportCount || 0}</td>
-      <td>{user.reportedBy?.join(", ") || "N/A"}</td>
+      <td>{user.reportedBy || "N/A"}</td>
       <td>{user.lastIp || "Desconocida"}</td>
       <td>
         <div className="action-dropdown" style={{ position: "relative" }}>

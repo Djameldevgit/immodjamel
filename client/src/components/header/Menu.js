@@ -5,10 +5,10 @@ import { logout } from '../../redux/actions/authAction';
 import { GLOBALTYPES } from '../../redux/actions/globalTypes';
 import Avatar from '../Avatar';
 import NotifyModal from '../NotifyModal';
-import LanguageSelector from '../LanguageSelector';
+ 
 import Modalsearchhome from '../Modalsearchhome';
 import AuthModalAddLikesCommentsSave from '../AuthModalAddLikesCommentsSave';
-
+ 
 const Menu = ({resetFilters}) => {
     const dispatch = useDispatch();
     const { auth, theme, notify } = useSelector(state => state); // Obtén el estado de autenticación, tema y notificaciones
@@ -138,9 +138,7 @@ const Menu = ({resetFilters}) => {
                             <Avatar src={auth.user.avatar} size="medium-avatar" />
                         </span>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <div className='language'>
-                                <LanguageSelector />
-                            </div>
+         
                             <Link className="dropdown-item" onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true })}>
                                 Ajouter un annnoces
                             </Link>

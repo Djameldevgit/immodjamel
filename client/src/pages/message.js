@@ -2,7 +2,7 @@ import React from 'react'
 import LeftSide from '../components/message/LeftSide'
 import RightSide from '../components/message/RightSide'
 
-const Conversation = () => {
+const message = () => {
     return (
         <div className="message d-flex">
         <div className="col-md-4 border-right px-0 left_mess">
@@ -16,4 +16,4 @@ const Conversation = () => {
     )
 }
 
-export default Conversation
+export default message

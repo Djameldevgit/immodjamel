@@ -7,7 +7,9 @@
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+  font-family: 'Tajawal', sans-serif;
+ 
+
 }
 
 code {
@@ -98,7 +100,7 @@ img {
 @import url("./usersadministration/paginabooqueo.css");
 @import url("./usersadministration/cardheadermodalreportpost.css");
 @import url("./usersadministration/cardheaderpost.css");
-@import url("./usersadministration/tablereportes.css");
+@import url("./usersadministration/reportuser.css");
 @import url("./usersadministration/infoaplicacion.css");
 @import url("./usersadministration/navbarlinks.css");
 @import url("./notifymodal.css");
@@ -154,4 +156,24 @@ img {
   width: 70px;
   height: 50px;
   
+}
+ 
+body.rtl {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Tajawal', sans-serif; /* Fuente recomendada para árabe */
+}
+
+body.rtl .App {
+  text-align: right;
+  font-family: 'Tajawal', sans-serif; 
+   font-family: 'Amiri', serif;
+}
+ 
+body.rtl .main {
+  direction: rtl;
+}
+body.rtl .container {
+  display: flex;
+  flex-direction: row-reverse;
 }

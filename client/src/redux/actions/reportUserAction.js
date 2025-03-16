@@ -5,6 +5,8 @@ export const REPORT_TYPES = {
     CREATE_REPORT: 'CREATE_REPORT',
     GET_REPORTS: 'GET_REPORTS',
     LOADING_REPORT: 'LOADING_REPORT',
+    GET_MOST_REPORTED_USERS:'GET_MOST_REPORTED_USERS',
+    GET_MOST_ACTIVE_REPORTERS:'GET_MOST_ACTIVE_REPORTERS',
 };
 
 export const createReport = ({ auth, reportData }) => async (dispatch) => {
@@ -57,3 +59,22 @@ export const getReports = (token) => async (dispatch) => {
     }
 };
 
+ 
+
+export const getMostReportedUsers = (token) => async (dispatch) => {
+  try {
+    const res = await getDataAPI("reports/most-reported-users", token);
+    dispatch({ type: REPORT_TYPES.GET_MOST_REPORTED_USERS, payload: res.data.mostReportedUsers });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getMostActiveReporters = (token) => async (dispatch) => {
+  try {
+    const res = await getDataAPI("reports/most-active-reporters", token);
+    dispatch({ type: REPORT_TYPES.GET_MOST_ACTIVE_REPORTERS, payload: res.data.mostActiveReporters });
+  } catch (err) {
+    console.log(err);
+  }
+};

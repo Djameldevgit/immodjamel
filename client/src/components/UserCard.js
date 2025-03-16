@@ -14,31 +14,32 @@ const UserCard = ({children, user, border, handleClose, setShowFollowers, setSho
     }
 
     const showMsg = (user) => {
-        return(
+        return (
             <>
-                <div style={{filter: theme ? 'invert(1)' : 'invert(0)'}}>
+                <div style={{ filter: theme ? 'invert(1)' : 'invert(0)' }}>
                     {user.text}
                 </div>
                 {
-                    user.media.length > 0 && 
-                    <div>
-                        {user.media.length} <i className="fas fa-image" />
-                    </div>
+                    user.media && user.media.length > 0 && ( // ✅ Verificamos si user.media existe antes de acceder a length
+                        <div>
+                            {user.media.length} <i className="fas fa-image" />
+                        </div>
+                    )
                 }
-
                 {
                     user.call &&
                     <span className="material-icons">
                         {
                             user.call.times === 0
-                            ? user.call.video ? 'videocam_off' : 'phone_disabled'
-                            : user.call.video ? 'video_camera_front' : 'call'
+                                ? user.call.video ? 'videocam_off' : 'phone_disabled'
+                                : user.call.video ? 'video_camera_front' : 'call'
                         }
                     </span>
                 }
             </>
-        )
-    }
+        );
+    };
+    
 
 
     return (
