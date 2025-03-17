@@ -139,7 +139,7 @@ const RightSide = () => {
     const handleDeleteConversation = () => {
         if(window.confirm('Do you want to delete?')){
             dispatch(deleteConversation({auth, id}))
-            return history.push('/message')
+            return history.push('/messages')
         }
     }
 

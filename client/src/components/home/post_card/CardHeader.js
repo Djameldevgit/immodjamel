@@ -20,7 +20,7 @@ const CardHeader = ({ post }) => {
       
 
             // Redirige a la página de chat con el dueño del post
-            history.push('/message');
+            history.push('/messages');
     }
       
     const handleAprove = () => {
@@ -92,7 +92,7 @@ const CardHeader = ({ post }) => {
                         {/* Botón para chatear con el dueño del post */}
                         <DropdownItem
                             icon="chat"
-                            text="Chat with Post Owner"
+                            text="Chat"
                             onClick={handleChatWithOwner}
                         />
 

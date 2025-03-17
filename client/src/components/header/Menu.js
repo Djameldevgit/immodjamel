@@ -1,103 +1,70 @@
-import React, { useState } from 'react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../../redux/actions/authAction';
-import { GLOBALTYPES } from '../../redux/actions/globalTypes';
-import Avatar from '../Avatar';
-import NotifyModal from '../NotifyModal';
- 
-import Modalsearchhome from '../Modalsearchhome';
-import AuthModalAddLikesCommentsSave from '../AuthModalAddLikesCommentsSave';
- 
-const Menu = ({resetFilters}) => {
-    const dispatch = useDispatch();
-    const { auth, theme, notify } = useSelector(state => state); // Obtén el estado de autenticación, tema y notificaciones
-    const history = useHistory(); // Para redireccionar al usuario
-    const { pathname } = useLocation(); // Para verificar la ruta actual
+import React, { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { logout } from '../../redux/actions/authAction'
+import { GLOBALTYPES } from '../../redux/actions/globalTypes'
+import Avatar from '../Avatar'
+import NotifyModal from '../NotifyModal'
+import LanguageSelector from '../LanguageSelector'
+import Modalsearchhome from '../Modalsearchhome'
+//import { useTranslation } from 'react-i18next'
 
+const Menu = () => {
     const [filters, setFilters] = useState({ title: '' });
-    const [isModalOpen, setIsModalOpen] = useState(false); // Para el modal de búsqueda
-    const [showAuthModal, setShowAuthModal] = useState(false); // Para el modal de autenticación
 
-    // Definir las funciones antes de usarlas
-    const openSearchModal = () => {
-        setIsModalOpen(true);
-    };
-
-    const handleDiscoverClick = () => {
-        if (auth.user) {
-            // Si el usuario está autenticado, ejecuta el dispatch
-            dispatch({ type: GLOBALTYPES.STATUS, payload: true });
-        } else {
-            // Si no está autenticado, muestra el modal
-            setShowAuthModal(true);
-        }
-    };
-
-    const navLinks = [
-        { label: 'Home', icon: 'home', path: '/', onClick: resetFilters },
-        { label: 'Search', icon: 'search', path: '#', onClick: openSearchModal }, // Función para abrir el modal de búsqueda
-        { label: 'Discover', icon: 'fas fa-plus', onClick: handleDiscoverClick } // Función para ejecutar el dispatch
-    ];
-
-    const isActive = (pn) => {
-        if (pn === pathname) return 'active';
-    };
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setFilters({ ...filters, [name]: value });
     };
 
-    const redirectToLogin = () => {
-        history.push('/login'); // Redirige al usuario a la página de inicio de sesión
-        setShowAuthModal(false); // Cierra el modal
+     
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const openModal = () => {
+        setIsModalOpen(true);
     };
 
-    const redirectToRegister = () => {
-        history.push('/register'); // Redirige al usuario a la página de registro
-        setShowAuthModal(false); // Cierra el modal
-    };
-
-    const closeSearchModal = () => {
+    // Función para cerrar el modal
+    const closeModal = () => {
         setIsModalOpen(false);
     };
 
+    const navLinks = [
+        { label: 'Home', icon: 'home', path: '/' },
+        { label: 'Search', icon: 'search', path: '#' },
+        { label: 'Discover', icon: 'explore', path: '#' }
+    ]
+
+    const { auth, theme, notify } = useSelector(state => state)
+    const dispatch = useDispatch()
+    const { pathname } = useLocation()
+
+    const isActive = (pn) => {
+        if (pn === pathname) return 'active'
+    }
+
     return (
         <div className="menu">
+
+
             <ul className="navbar-nav flex-row">
                 {navLinks.map((link, index) => (
                     <li className={`nav-item px-2 ${isActive(link.path)}`} key={index}>
                         <Link
                             className="nav-link"
-                            to={link.path || '#'}
-                            onClick={(e) => {
-                                // Solo prevenir la navegación si hay una función onClick
-                                if (link.onClick) {
-                                    e.preventDefault();
-                                    link.onClick();
+                            to={link.path}
+                            onClick={() => {
+                                if (link.label === "Search") {
+                                    openModal(); // Abre el modal solo si es el ícono de búsqueda
                                 }
                             }}
                         >
-                            {link.icon.startsWith('fa') ? (
-                                <i className={link.icon}></i>
-                            ) : (
-                                <span className="material-icons">{link.icon}</span>
-                            )}
+                            <span className="material-icons">{link.icon}</span>
                         </Link>
                     </li>
                 ))}
-
-                {/* Modal para usuarios no autenticados */}
-                <AuthModalAddLikesCommentsSave
-                    showModal={showAuthModal}
-                    closeModal={() => setShowAuthModal(false)}
-                    redirectToLogin={redirectToLogin}
-                    redirectToRegister={redirectToRegister}
-                />
-
-                {/* Modal de búsqueda */}
-                <Modalsearchhome isOpen={isModalOpen} onClose={closeSearchModal}>
+                <Modalsearchhome isOpen={isModalOpen} onClose={closeModal}>
                     <div>
                         <h3>Search by title and province</h3>
                         <div className="filter-group">
@@ -109,11 +76,12 @@ const Menu = ({resetFilters}) => {
                                 onChange={handleFilterChange}
                                 value={filters.title}
                             />
+
+
                         </div>
-                        <button onClick={closeSearchModal}>Cerrar</button>
+                        <button onClick={closeModal}>Cerrar</button>
                     </div>
                 </Modalsearchhome>
-
                 {/* Icono de notificaciones */}
                 <li className="nav-item dropdown" style={{ opacity: 1 }}>
                     <span className="nav-link position-relative" id="navbarDropdown"
@@ -138,15 +106,19 @@ const Menu = ({resetFilters}) => {
                             <Avatar src={auth.user.avatar} size="medium-avatar" />
                         </span>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-         
+                            <div className='language'>
+                                <LanguageSelector />
+                            </div>
                             <Link className="dropdown-item" onClick={() => dispatch({ type: GLOBALTYPES.STATUS, payload: true })}>
                                 Ajouter un annnoces
                             </Link>
-                            <Link className="dropdown-item" to='/informacionaplicacion'>Info aplicacion</Link>
+                            <Link className="dropdown-item" to='/messages'>Chat </Link>
 
+                            {/* Opciones para administradores */}
                             {auth.user.role === "admin" && (
                                 <>
                                     <Link className="dropdown-item" to='/administration/users/reportuser'>Reports user </Link>
+
                                     <Link className="dropdown-item" to='/administration/homepostspendientes'>Posts pendientes</Link>
                                     <Link className="dropdown-item" to='/administration/roles'>Roles</Link>
                                     <Link className="dropdown-item" to='/administration/usersaction'>Usuarios acción</Link>
@@ -167,7 +139,7 @@ const Menu = ({resetFilters}) => {
                             {/* Logout */}
                             <div className="dropdown-divider"></div>
                             <Link className="dropdown-item" to="/" onClick={() => dispatch(logout())}>
-                                Desconexion
+                                Logout
                             </Link>
                         </div>
                     </li>
@@ -175,17 +147,17 @@ const Menu = ({resetFilters}) => {
                     // Menú para usuarios no autenticados
                     <div className="btn-group user-icon-container">
                         <i className="fas fa-user user-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-                        <div className="dropdown-menu">
-                            <Link className="dropdown-item" to='/informacionaplicacion'>Info aplicacion</Link>
-                            <Link className="dropdown-item" to='/login'>Se connecter</Link>
+                        <div className="dropdown-menu  ">
+
+                            <Link className="dropdown-item" to='/login'>Se conecter</Link>
                             <div className="dropdown-divider"></div>
-                            <Link className="dropdown-item" to='/register'>S'inscrire</Link>
+                            <Link className="dropdown-item" to='/register'>Sinscrire</Link>
                         </div>
                     </div>
                 )}
             </ul>
         </div>
-    );
-};
+    )
+}
 
-export default Menu;
+export default Menu

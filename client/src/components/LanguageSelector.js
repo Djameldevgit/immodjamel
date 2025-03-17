@@ -41,7 +41,7 @@ function LanguageSelector() {
   }, [cookies.language, handleLanguageChange]);
 
   return (
-    <div className='language-button'>
+    <div className='language-button' style={{display:'flex'}}>
     <button className="dropdown-item" onClick={() => handleLanguageChange('ar')}>
   {t('AR', { lng: languageReducer.language })}
 </button>

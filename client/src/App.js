@@ -37,12 +37,14 @@ import Home from './pages/home'
 import Reportuser from './pages/administration/users/reportuser';
 import Bloqueos from './pages/bloqueos'
 import { useHistory } from 'react-router-dom';
-import Message from './pages/message';
+
 import InfoAplicacion from './components/InfoAplicacion';
+import Message from './pages/message';
+import Messages from './pages/messages';
 
 
 function App() {
-  const { auth, status, modal, call,languageReducer, userBlockReducer } = useSelector(state => state); //, userBlockReducer }
+  const { auth, status, modal, call, languageReducer, userBlockReducer } = useSelector(state => state); //, userBlockReducer }
 
   const dispatch = useDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -51,7 +53,7 @@ function App() {
   const language = languageReducer?.language || localStorage.getItem("lang") || "en";
 
   useEffect(() => {
-      // Verificar si existe
+    // Verificar si existe
     if (language === "ar") {
       document.body.classList.add("rtl");
     } else {
@@ -129,9 +131,9 @@ function App() {
 
           <Switch>
 
+            <Route exact path="/message/:id" render={() => (auth.token ? <Message /> : <Redirect to="/login" />)} />
 
-            <Route exact path="/message/:id" render={(props) => auth.token ? <Message {...props} /> : <Redirect to="/login" />} />
-            <Route exact path="/message" render={() => (auth.token ? <Message /> : <Redirect to="/login" />)} />
+            <Route exact path="/messages" render={() => (auth.token ? <Messages /> : <Redirect to="/login" />)} />
             <Route exact path="/informacionaplicacion" render={() => (auth.token ? <InfoAplicacion /> : <Redirect to="/login" />)} />
 
 
